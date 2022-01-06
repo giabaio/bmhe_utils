@@ -7,7 +7,7 @@
 mytraceplot(node, model = m, title = "", lab = "")
 }
 \arguments{
-\item{node}{a *string* with the name of the node to be plotted, eg "theta"
+\item{node}{a \emph{string} with the name of the node to be plotted, eg "theta"
 (in quotes)}
 
 \item{model}{the name of the object containing the MCMC simulations}
