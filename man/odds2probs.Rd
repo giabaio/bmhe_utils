@@ -7,10 +7,10 @@
 odds2probs(odds)
 }
 \arguments{
-\item{odds}{the odds (ratio of p/(1-p))}
+\item{odds}{the odds ratio \emph{against} p: OR=(1-p)/p}
 }
 \value{
-the value p
+the value of the underlying probability, p
 }
 \description{
 Maps from odds to probabilities

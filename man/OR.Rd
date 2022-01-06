@@ -12,7 +12,7 @@ OR(p1, p2)
 \item{p2}{another probability}
 }
 \value{
-OR
+OR=(p1/(1-p1))/(p2/(1-p2))
 }
 \description{
 Computes the odds ratio between two probabilities

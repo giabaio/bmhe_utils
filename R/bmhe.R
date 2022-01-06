@@ -177,7 +177,7 @@ box()
 #' Computes the logit of a number
 #'
 #' @param x a number between 0 and 1
-#' @return logit(x)
+#' @return logit(x)=log(x/(1-x))
 #' @examples
 #' logit(.2)
 #'
@@ -187,7 +187,7 @@ logit <- function(x){log(x/(1-x))}
 #' Computes the inverse logit of a number between -infinity and +infinity
 #'
 #' @param x a real number
-#' @return inverse-logit(x)
+#' @return inverse-logit(x) = exp(x)/(1+exp(x))
 #' @examples
 #' ilogit(2)
 #'
@@ -196,8 +196,8 @@ ilogit <- function(x){exp(x)/(1+exp(x))}
 
 #' Maps from odds to probabilities
 #'
-#' @param odds the odds (ratio of p/(1-p))
-#' @return the value p
+#' @param odds the odds ratio *against* p: OR=(1-p)/p
+#' @return the value of the underlying probability, p
 #' @examples
 #' odds2probs(4)
 #'
@@ -211,7 +211,7 @@ odds2probs <- function(odds) {
 #'
 #' @param p1 a probability
 #' @param p2 another probability
-#' @return OR
+#' @return OR=(p1/(1-p1))/(p2/(1-p2))
 #' @examples
 #' OR(.5,.2)
 #'

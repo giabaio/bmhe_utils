@@ -10,7 +10,7 @@ ilogit(x)
 \item{x}{a real number}
 }
 \value{
-inverse-logit(x)
+inverse-logit(x) = exp(x)/(1+exp(x))
 }
 \description{
 Computes the inverse logit of a number between -infinity and +infinity

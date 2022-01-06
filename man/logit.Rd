@@ -10,7 +10,7 @@ logit(x)
 \item{x}{a number between 0 and 1}
 }
 \value{
-logit(x)
+logit(x)=log(x/(1-x))
 }
 \description{
 Computes the logit of a number
