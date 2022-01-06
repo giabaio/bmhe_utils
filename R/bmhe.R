@@ -154,7 +154,7 @@ require(R2jags)
 }
 
 #' Produces a plot of the values of the Gelman Rubin stats to determine
-# visually convergence (and see clearly which node has reached it)
+#' visually convergence (and see clearly which node has reached it)
 #'
 #' @param m is an object in the class jags or bugs (the output of the MCMC run)
 #' @return the graph with the Gelmn Rubin statistics plot
@@ -173,3 +173,49 @@ axis(2)
 box()
 }
 
+
+#' Computes the logit of a number
+#'
+#' @param x a number between 0 and 1
+#' @return logit(x)
+#' @examples
+#' logit(.2)
+#'
+logit <- function(x){log(x/(1-x))}
+
+
+#' Computes the inverse logit of a number between -infinity and +infinity
+#'
+#' @param x a real number
+#' @return inverse-logit(x)
+#' @examples
+#' ilogit(2)
+#'
+ilogit <- function(x){exp(x)/(1+exp(x))}
+
+
+#' Maps from odds to probabilities
+#'
+#' @param odds the odds (ratio of p/(1-p))
+#' @return the value p
+#' @examples
+#' odds2probs(4)
+#'
+odds2probs <- function(odds) {
+  p <- 1/(odds+1)
+  return(p)
+}
+
+
+#' Computes the odds ratio between two probabilities
+#'
+#' @param p1 a probability
+#' @param p2 another probability
+#' @return OR
+#' @examples
+#' OR(.5,.2)
+#'
+OR <- function(p1,p2) {
+  OR <- (p1/(1-p1))/(p2/(1-p2))
+  return(OR)
+}

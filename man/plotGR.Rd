@@ -2,7 +2,8 @@
 % Please edit documentation in R/bmhe.R
 \name{plotGR}
 \alias{plotGR}
-\title{Produces a plot of the values of the Gelman Rubin stats to determine}
+\title{Produces a plot of the values of the Gelman Rubin stats to determine
+visually convergence (and see clearly which node has reached it)}
 \usage{
 plotGR(m)
 }
@@ -14,6 +15,7 @@ the graph with the Gelmn Rubin statistics plot
 }
 \description{
 Produces a plot of the values of the Gelman Rubin stats to determine
+visually convergence (and see clearly which node has reached it)
 }
 \examples{
 
