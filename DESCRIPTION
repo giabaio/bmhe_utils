@@ -8,7 +8,8 @@ Authors@R: c(
            comment = c(ORCID = "0000-0003-4314-2570")))
 Description: A set of utility functions that can be used by the students
     course participants to manipulate data etc.
-Suggests: tidyverse, R2OpenBUGS, R2jags
+Depends: R2OpenBUGS, R2jags
+Suggests: tidyverse
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
