@@ -10,9 +10,9 @@ coefplot(x, low = 0.025, upp = 0.975, params = NULL, deviance = FALSE, ...)
 \item{x}{an object of class `bugs', see \code{\link{bugs}}, or of class
 'jags', see \code{\link{jags}} for details}
 
-\item{low}{the lower quantile to consider (default 2.5\\% quantile)}
+\item{low}{the lower quantile to consider (default 2.5 percentile)}
 
-\item{upp}{the upper quantile to consider (default 97.5\\% quantile)}
+\item{upp}{the upper quantile to consider (default 97.5 percentile)}
 
 \item{params}{a vector of strings with the names of the parameters to be
 included. Defaults to all those in the original model}

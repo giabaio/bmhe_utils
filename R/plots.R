@@ -152,8 +152,8 @@ diagplot=function(x,what="Rhat",...) {
 #'
 #' @param x an object of class `bugs', see \code{\link{bugs}}, or of class
 #' 'jags', see \code{\link{jags}} for details
-#' @param low the lower quantile to consider (default 2.5\% quantile)
-#' @param upp the upper quantile to consider (default 97.5\% quantile)
+#' @param low the lower quantile to consider (default 2.5 percentile)
+#' @param upp the upper quantile to consider (default 97.5 percentile)
 #' @param params a vector of strings with the names of the parameters to be
 #' included. Defaults to all those in the original model
 #' @param deviance a logical value (defaults to FALSE) to indicate whether
