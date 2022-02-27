@@ -6,9 +6,10 @@ Author: Gianluca Baio
 Authors@R: c(
     person("Gianluca", "Baio", , "g.baio@ucl.ac.uk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4314-2570")))
-Description: A set of utility functions that can be used by the students
-    course participants to manipulate data etc.
-Depends: R2OpenBUGS, R2jags
+Description: A set of utility functions that can be used 
+    to post-process BUGS or JAGS objects as well as other to facilitate various
+    Bayesian modelling activities (including in HTA)
+Depends: R2OpenBUGS, R2jags, BCEA
 Suggests: tidyverse
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license

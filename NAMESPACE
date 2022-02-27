@@ -1,1 +1,4 @@
 exportPattern("^[[:alpha:]]+")
+
+S3method(print, bugs)
+S3method(print, rjags)
