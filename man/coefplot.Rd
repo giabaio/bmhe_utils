@@ -36,5 +36,5 @@ distributions in a given model.
 \author{
 Gianluca Baio
 }
-\keyword{Diagnostic}
+\keyword{Coefficient}
 \keyword{plots}

@@ -10,6 +10,7 @@
 #' be displayed in the summary statistics table
 #' @param ... further arguments to \code{\link{print}}
 #' @seealso \code{\link{jags}}
+#' @author Gianluca Baio
 #' @keywords print
 print.rjags <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.975), ...) {
   x <- x$BUGSoutput
@@ -24,6 +25,11 @@ print.rjags <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.9
     n.eff <- Rhat <- NULL
   }
   summaryMatrix <- t(rbind(mu.vect, sd.vect, int.matrix, Rhat, n.eff))
+  if(x$n.chains==1) {
+    colnames(summaryMatrix) = c("mean","sd",paste0(intervals*100,"%"))
+  } else {
+    colnames(summaryMatrix) = c("mean","sd",paste0(intervals*100,"%"),"Rhat","n.eff")
+  }
 
   rownameMatrix <- rownames(summaryMatrix)
   dev.idx <- match("deviance", rownameMatrix)
@@ -76,6 +82,7 @@ print.rjags <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.9
 #' be displayed in the summary statistics table
 #' @param ... further arguments to \code{\link{print}}
 #' @seealso \code{\link{bugs}}
+#' @author Gianluca Baio
 #' @keywords print
 print.bugs <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.975), ...) {
   sims.matrix <- x$sims.matrix
@@ -89,6 +96,11 @@ print.bugs <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.97
     n.eff <- Rhat <- NULL
   }
   summaryMatrix <- t(rbind(mu.vect, sd.vect, int.matrix, Rhat, n.eff))
+  if(x$n.chains==1) {
+    colnames(summaryMatrix) = c("mean","sd",paste0(intervals*100,"%"))
+  } else {
+    colnames(summaryMatrix) = c("mean","sd",paste0(intervals*100,"%"),"Rhat","n.eff")
+  }
 
   rownameMatrix <- rownames(summaryMatrix)
   dev.idx <- match("deviance", rownameMatrix)

@@ -1,6 +1,6 @@
 Package: bmhe
 Type: Package
-Title: This Package Creates a Set of Functions Useful for STAT0019
+Title: This Package Creates a Set of Functions Useful for Bayesian modelling
 Version: 0.1.0
 Author: Gianluca Baio
 Authors@R: c(

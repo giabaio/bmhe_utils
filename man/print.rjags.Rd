@@ -23,4 +23,7 @@ Printing a \code{jags} object
 \seealso{
 \code{\link{jags}}
 }
+\author{
+Gianluca Baio
+}
 \keyword{print}

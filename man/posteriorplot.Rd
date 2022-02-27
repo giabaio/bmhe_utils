@@ -14,7 +14,8 @@ posteriorplot(x, parameter = NULL, plot = "density", ...)
 the density plot}
 
 \item{plot}{the type of plot (options are 'density' (default) or
-'hist' for a binned barplot of the posterior)}
+'bar' for a binned barplot of the posterior) or
+'hist' for a histogram}
 
 \item{...}{further arguments to \code{\link{densityplot}}}
 }

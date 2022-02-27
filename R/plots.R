@@ -171,7 +171,7 @@ diagplot=function(x,what="Rhat",...) {
 #' @param ...  Additional options
 #' @author Gianluca Baio
 #' @seealso \code{\link{bugs}}, \code{\link{jags}}
-#' @keywords Diagnostic plots
+#' @keywords Coefficient plots
 #' @examples
 #' \dontrun{
 #' }

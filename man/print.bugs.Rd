@@ -23,4 +23,7 @@ Printing a \code{bugs} object
 \seealso{
 \code{\link{bugs}}
 }
+\author{
+Gianluca Baio
+}
 \keyword{print}
