@@ -54,7 +54,8 @@ traceplot=function(x,parameter=NULL,...) {
 #' @param parameter a string with the name of the parameter for which to show
 #' the density plot
 #' @param plot the type of plot (options are 'density' (default) or
-#' 'hist' for a binned barplot of the posterior)
+#' 'bar' for a binned barplot of the posterior) or
+#' 'hist' for a histogram
 #' @param ... further arguments to \code{\link{densityplot}}
 #' @author Gianluca Baio
 #' @seealso \code{\link{bugs}}, \code{\link{jags}}
@@ -82,10 +83,14 @@ posteriorplot=function(x,parameter=NULL,plot="density",...) {
         ggplot(aes(value))+geom_density()+facet_wrap(~variable,scales="free") +
         theme_bw()
     }
-    if(plot=="hist") {
+    if(plot=="bar") {
       p=x$sims.matrix %>% as_tibble() %>% gather(variable,value,1:ncol(.)) %>%
         ggplot(aes(value))+geom_bar()+scale_x_binned() + facet_wrap(~variable,scales="free") +
         theme_bw()
+    }
+    if(plot=="hist") {
+      p=x$sims.matrix %>% as_tibble() %>% gather(variable,value,1:ncol(.)) %>%
+        ggplot(aes(value))+geom_histogram()+ facet_wrap(~variable,scales="free") +theme_bw()
     }
     # This would do a barplot of all the variables
     #
@@ -94,9 +99,14 @@ posteriorplot=function(x,parameter=NULL,plot="density",...) {
       p=x$sims.matrix[,parameter] %>% as_tibble() %>% ggplot(aes(value))+geom_density() +
         labs(x=parameter,title=paste("Density plot for",parameter)) + theme_bw()
     }
-    if (plot=="hist") {
+    if (plot=="bar") {
       p=x$sims.matrix[,parameter] %>% as_tibble() %>% ggplot(aes(value))+geom_bar() +
         scale_x_binned()+labs(x=parameter,title=paste("Density plot for",parameter)) +
+        theme_bw()
+    }
+    if (plot=="hist") {
+      p=x$sims.matrix[,parameter] %>% as_tibble() %>% ggplot(aes(value))+geom_histogram() +
+        labs(x=parameter,title=paste("Density plot for",parameter)) +
         theme_bw()
     }
   }
