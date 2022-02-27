@@ -25,7 +25,7 @@ traceplot=function(x,parameter=NULL,...) {
     }
   }
   # If the object is in the class JAGS,then selects the relevant list
-  if(class(x)=="JAGS") {x=x$BUGSoutput}
+  if(any(grepl("rjags",class(x)))) {x=x$BUGSoutput}
   #
   if(is.null(parameter)) {
     x$sims.array %>%
@@ -73,7 +73,7 @@ posteriorplot=function(x,parameter=NULL,plot="density",...) {
     }
   }
   # If the object is in the class JAGS,then selects the relevant list
-  if(class(x)=="JAGS") {x=x$BUGSoutput}
+  if(any(grepl("rjags",class(x)))) {x=x$BUGSoutput}
   #
 
   if(is.null(parameter)) {
@@ -137,7 +137,7 @@ diagplot=function(x,what="Rhat",...) {
     }
   }
   # If the object is in the class JAGS,then selects the relevant list
-  if(class(x)=="JAGS") {x=x$BUGSoutput}
+  if(any(grepl("rjags",class(x)))) {x=x$BUGSoutput}
   #
 
   x$summary %>% as_tibble() %>% ggplot(aes(1:nrow(.),!!sym(what))) +
@@ -181,7 +181,7 @@ coefplot=function(x,low=.025,upp=.975,params=NULL,deviance=FALSE,...) {
     }
   }
   # If the object is in the class JAGS,then selects the relevant list
-  if(class(x)=="JAGS") {x=x$BUGSoutput}
+  if(any(grepl("rjags",class(x)))) {x=x$BUGSoutput}
   #
 
   if(is.null(params)) {
