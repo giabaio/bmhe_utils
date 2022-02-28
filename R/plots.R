@@ -149,10 +149,13 @@ diagplot=function(x,what="Rhat",...) {
   # If the object is in the class JAGS,then selects the relevant list
   if(any(grepl("rjags",class(x)))) {x=x$BUGSoutput}
   #
-
-  x$summary %>% as_tibble() %>% ggplot(aes(1:nrow(.),!!sym(what))) +
-    geom_point(color="red",size=2) + geom_hline(yintercept=ifelse(what=="Rhat",1.1,x$n.sims),linetype="dashed",size=.5) +
-    theme_bw() + labs(x="Parameters",title=ifelse(what=="Rhat","Potential scale reduction","Effective sample size"))
+  if(x$n.chains==1) {
+    cat("You need to run 2 or more parallel chains to be able to make this plot")
+  } else {
+    x$summary %>% as_tibble() %>% ggplot(aes(1:nrow(.),!!sym(what))) +
+      geom_point(color="red",size=2) + geom_hline(yintercept=ifelse(what=="Rhat",1.1,x$n.sims),linetype="dashed",size=.5) +
+      theme_bw() + labs(x="Parameters",title=ifelse(what=="Rhat","Potential scale reduction","Effective sample size"))
+  }
 }
 
 #' Coefplot for the parameters in the model
