@@ -14,11 +14,11 @@ coefplot(x, low = 0.025, upp = 0.975, params = NULL, ...)
 
 \item{upp}{the upper quantile to consider (default 97.5 percentile)}
 
-\item{params}{a vector of strings with the names of the parameters to be
+\item{...}{Additional options}
+
+\item{parameter}{a vector of strings with the names of the parameters to be
 included. Defaults to all those in the original model, but can be a
 vector eg \code{c("par1","par2")}}
-
-\item{...}{Additional options}
 }
 \description{
 Creates a plot showing the mean and an interval estimate for the posterior

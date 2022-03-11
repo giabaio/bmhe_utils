@@ -149,7 +149,7 @@ diagplot=function(x,what="Rhat",...) {
 #' 'jags', see \code{\link{jags}} for details
 #' @param low the lower quantile to consider (default 2.5 percentile)
 #' @param upp the upper quantile to consider (default 97.5 percentile)
-#' @param params a vector of strings with the names of the parameters to be
+#' @param parameter a vector of strings with the names of the parameters to be
 #' included. Defaults to all those in the original model, but can be a
 #' vector eg \code{c("par1","par2")}
 #' @param ...  Additional options
@@ -180,13 +180,13 @@ coefplot=function(x,low=.025,upp=.975,params=NULL,...) {
 
   x$sims.matrix %>% as_tibble() %>%
     { if(grepl("deviance",x$sims.list %>% names()) %>% any()) select(.,-deviance) else . } %>%
-    { if(!is.null(params)) select(.,contains(params)) else . } %>%
+    { if(!is.null(parameter)) select(.,contains(parameter)) else . } %>%
     apply(2,function(x) c(mean(x,na.rm=T),sd(x,na.rm=T),quantile(x,low,na.rm=T),quantile(x,upp,na.rm=T))) %>%
     t() %>% as_tibble(.name_repair=~c("mean","sd",paste0(low*100,"%"),paste0(upp*100,"%"))) %>%
     mutate(
       Parameter=x$sims.matrix %>% as_tibble() %>%
-        { if(deviance==FALSE) select(.,-deviance) else . } %>%
-        { if(!is.null(params)) select(.,contains(params)) else . } %>%
+        { if(grepl("deviance",x$sims.list %>% names()) %>% any()) select(.,-deviance) else . } %>%
+        { if(!is.null(parameter)) select(.,contains(parameter)) else . } %>%
         colnames()
     ) %>%
     select(Parameter,everything()) %>%
