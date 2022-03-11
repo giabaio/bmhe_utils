@@ -6,7 +6,7 @@
 #' @param x an object of class `bugs', see \code{\link{bugs}}, or of class
 #' 'jags', see \code{\link{jags}} for details
 #' @param parameter a string with the name of the parameter for which to show
-#' the traceplot
+#' the traceplot. Can be a vector, eg \code{c("par1","par2")}
 #' @param ... further arguments to \code{\link{traceplot}}
 #' @author Gianluca Baio
 #' @seealso \code{\link{bugs}}, \code{\link{jags}}
@@ -27,22 +27,17 @@ traceplot=function(x,parameter=NULL,...) {
   # If the object is in the class JAGS,then selects the relevant list
   if(any(grepl("rjags",class(x)))) {x=x$BUGSoutput}
   #
-  if(is.null(parameter)) {
-    x$sims.array %>%
-      as_tibble(.name_repair = ~paste0("Chain",x$sims.array %>% as_tibble() %>% colnames())) %>%
-      mutate(iteration=row_number()) %>%
-      gather(variable,value,c(-iteration)) %>%
-      separate(variable,c("chain","parameter"),extra = "merge") %>%
-      ggplot(aes(x=iteration,y=value,color=chain))+
-      geom_line()+facet_wrap(~parameter,scales="free")+
-      labs(title="Traceplot for all model parameters")+
-      theme_bw()
-  } else {
-    x$sims.array[,,parameter] %>%
-      as_tibble(.name_repair = ~paste("Chain",1:x$n.chains)) %>% mutate(iteration=row_number()) %>%
-      gather(chain,value,contains("Chain"),-iteration) %>% ggplot(aes(x=iteration,y=value,color=chain))+geom_line() +
-      theme_bw() + labs(title=paste("Traceplot for",parameter))
-  }
+  x$sims.array %>%
+    as_tibble(.name_repair = ~paste0("Chain",x$sims.array %>% as_tibble() %>% colnames())) %>%
+    # This is only run if 'parameter' is not null (so some parameters are selected by the user)
+    { if(!is.null(parameter)) select(., contains(parameter)) else . } %>%
+    mutate(iteration=row_number()) %>%
+    gather(variable,value,c(-iteration)) %>%
+    separate(variable,c("chain","parameter"),extra = "merge") %>%
+    ggplot(aes(x=iteration,y=value,color=chain))+
+    geom_line()+facet_wrap(~parameter,scales="free")+
+    labs(title="Traceplot for all model parameters")+
+    theme_bw()
 }
 
 
@@ -52,7 +47,7 @@ traceplot=function(x,parameter=NULL,...) {
 #' @param x an object of class `bugs', see \code{\link{bugs}}, or of class
 #' 'jags', see \code{\link{jags}} for details
 #' @param parameter a string with the name of the parameter for which to show
-#' the density plot
+#' the density plot. Can be a vector, eg \code{c("par1","par2")}
 #' @param plot the type of plot (options are 'density' (default) or
 #' 'bar' for a binned barplot of the posterior) or
 #' 'hist' for a histogram
@@ -77,38 +72,25 @@ posteriorplot=function(x,parameter=NULL,plot="density",...) {
   if(any(grepl("rjags",class(x)))) {x=x$BUGSoutput}
   #
 
-  if(is.null(parameter)) {
-    if(plot=="density") {
-      p=x$sims.matrix %>% as_tibble() %>% gather(variable,value,1:ncol(.)) %>%
-        ggplot(aes(value))+geom_density()+facet_wrap(~variable,scales="free") +
-        theme_bw()
-    }
-    if(plot=="bar") {
-      p=x$sims.matrix %>% as_tibble() %>% gather(variable,value,1:ncol(.)) %>%
-        ggplot(aes(value))+geom_bar()+scale_x_binned() + facet_wrap(~variable,scales="free") +
-        theme_bw()
-    }
-    if(plot=="hist") {
-      p=x$sims.matrix %>% as_tibble() %>% gather(variable,value,1:ncol(.)) %>%
-        ggplot(aes(value))+geom_histogram()+ facet_wrap(~variable,scales="free") +theme_bw()
-    }
-    # This would do a barplot of all the variables
-    #
-  } else {
-    if(plot=="density") {
-      p=x$sims.matrix[,parameter] %>% as_tibble() %>% ggplot(aes(value))+geom_density() +
-        labs(x=parameter,title=paste("Density plot for",parameter)) + theme_bw()
-    }
-    if (plot=="bar") {
-      p=x$sims.matrix[,parameter] %>% as_tibble() %>% ggplot(aes(value))+geom_bar() +
-        scale_x_binned()+labs(x=parameter,title=paste("Density plot for",parameter)) +
-        theme_bw()
-    }
-    if (plot=="hist") {
-      p=x$sims.matrix[,parameter] %>% as_tibble() %>% ggplot(aes(value))+geom_histogram() +
-        labs(x=parameter,title=paste("Density plot for",parameter)) +
-        theme_bw()
-    }
+  if(plot=="density") {
+    p=x$sims.matrix %>% as_tibble() %>%
+      { if(!is.null(parameter)) select(.,contains(parameter)) else . } %>%
+      gather(variable,value,1:ncol(.)) %>%
+      ggplot(aes(value))+geom_density()+facet_wrap(~variable,scales="free") +
+      theme_bw()
+  }
+  if(plot=="bar") {
+    p=x$sims.matrix %>% as_tibble() %>%
+      { if(!is.null(parameter)) select(.,contains(parameter)) else . } %>%
+      gather(variable,value,1:ncol(.)) %>%
+      ggplot(aes(value))+geom_bar()+scale_x_binned() + facet_wrap(~variable,scales="free") +
+      theme_bw()
+  }
+  if(plot=="hist") {
+    p=x$sims.matrix %>% as_tibble() %>%
+      { if(!is.null(parameter)) select(.,contains(parameter)) else . } %>%
+      gather(variable,value,1:ncol(.)) %>%
+      ggplot(aes(value))+geom_histogram()+ facet_wrap(~variable,scales="free") +theme_bw()
   }
   p
 }
@@ -168,9 +150,8 @@ diagplot=function(x,what="Rhat",...) {
 #' @param low the lower quantile to consider (default 2.5 percentile)
 #' @param upp the upper quantile to consider (default 97.5 percentile)
 #' @param params a vector of strings with the names of the parameters to be
-#' included. Defaults to all those in the original model
-#' @param deviance a logical value (defaults to FALSE) to indicate whether
-#' the model deviance should be considered in the plot.
+#' included. Defaults to all those in the original model, but can be a
+#' vector eg \code{c("par1","par2")}
 #' @param ...  Additional options
 #' @author Gianluca Baio
 #' @seealso \code{\link{bugs}}, \code{\link{jags}}
@@ -180,7 +161,7 @@ diagplot=function(x,what="Rhat",...) {
 #' }
 #' @export coefplot
 #'
-coefplot=function(x,low=.025,upp=.975,params=NULL,deviance=FALSE,...) {
+coefplot=function(x,low=.025,upp=.975,params=NULL,...) {
 
   required_packages=c("tidyverse")
   for (pkg in required_packages) {
@@ -197,16 +178,18 @@ coefplot=function(x,low=.025,upp=.975,params=NULL,deviance=FALSE,...) {
   if(any(grepl("rjags",class(x)))) {x=x$BUGSoutput}
   #
 
-  if(is.null(params)) {
-    params=x$sims.matrix %>% colnames()
-  }
-  if((any(grepl("deviance",x$sims.matrix %>% colnames()))) & (deviance==FALSE)) {
-    params=params[-grep("deviance",x$sims.matrix %>% colnames())]
-  }
-  x$sims.matrix %>% apply(2,function(x) c(mean(x,na.rm=T),sd(x,na.rm=T),quantile(x,low,na.rm=T),quantile(x,upp,na.rm=T))) %>%
+  x$sims.matrix %>% as_tibble() %>%
+    { if(grepl("deviance",x$sims.list %>% names()) %>% any()) select(.,-deviance) else . } %>%
+    { if(!is.null(params)) select(.,contains(params)) else . } %>%
+    apply(2,function(x) c(mean(x,na.rm=T),sd(x,na.rm=T),quantile(x,low,na.rm=T),quantile(x,upp,na.rm=T))) %>%
     t() %>% as_tibble(.name_repair=~c("mean","sd",paste0(low*100,"%"),paste0(upp*100,"%"))) %>%
-    mutate(Parameter=x$sims.matrix %>% colnames()) %>% select(Parameter,everything()) %>%
-    filter(Parameter%in%params) %>%
+    mutate(
+      Parameter=x$sims.matrix %>% as_tibble() %>%
+        { if(deviance==FALSE) select(.,-deviance) else . } %>%
+        { if(!is.null(params)) select(.,contains(params)) else . } %>%
+        colnames()
+    ) %>%
+    select(Parameter,everything()) %>%
     ggplot(aes(mean,Parameter))+
     geom_linerange(aes(xmin=`2.5%`,xmax=`97.5%`),position=position_dodge(.3)) +
     geom_point(position = position_dodge(0.3)) + theme_bw() + geom_vline(xintercept=0,linetype="dashed") +
