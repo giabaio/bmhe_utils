@@ -11,7 +11,7 @@ traceplot(x, parameter = NULL, ...)
 'jags', see \code{\link{jags}} for details}
 
 \item{parameter}{a string with the name of the parameter for which to show
-the traceplot}
+the traceplot. Can be a vector, eg \code{c("par1","par2")}}
 
 \item{...}{further arguments to \code{\link{traceplot}}}
 }

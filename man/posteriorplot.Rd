@@ -11,7 +11,7 @@ posteriorplot(x, parameter = NULL, plot = "density", ...)
 'jags', see \code{\link{jags}} for details}
 
 \item{parameter}{a string with the name of the parameter for which to show
-the density plot}
+the density plot. Can be a vector, eg \code{c("par1","par2")}}
 
 \item{plot}{the type of plot (options are 'density' (default) or
 'bar' for a binned barplot of the posterior) or

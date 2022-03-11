@@ -4,7 +4,7 @@
 \alias{coefplot}
 \title{Coefplot for the parameters in the model}
 \usage{
-coefplot(x, low = 0.025, upp = 0.975, params = NULL, deviance = FALSE, ...)
+coefplot(x, low = 0.025, upp = 0.975, params = NULL, ...)
 }
 \arguments{
 \item{x}{an object of class `bugs', see \code{\link{bugs}}, or of class
@@ -15,10 +15,8 @@ coefplot(x, low = 0.025, upp = 0.975, params = NULL, deviance = FALSE, ...)
 \item{upp}{the upper quantile to consider (default 97.5 percentile)}
 
 \item{params}{a vector of strings with the names of the parameters to be
-included. Defaults to all those in the original model}
-
-\item{deviance}{a logical value (defaults to FALSE) to indicate whether
-the model deviance should be considered in the plot.}
+included. Defaults to all those in the original model, but can be a
+vector eg \code{c("par1","par2")}}
 
 \item{...}{Additional options}
 }
