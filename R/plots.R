@@ -161,7 +161,7 @@ diagplot=function(x,what="Rhat",...) {
 #' }
 #' @export coefplot
 #'
-coefplot=function(x,low=.025,upp=.975,params=NULL,...) {
+coefplot=function(x,low=.025,upp=.975,parameter=NULL,...) {
 
   required_packages=c("tidyverse")
   for (pkg in required_packages) {
