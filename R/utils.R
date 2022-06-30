@@ -127,6 +127,8 @@ lognPar <- function(m,s) {
 #' @param lab the label to write on the y-axis (defaults to nothing)
 #' @return the graph with the traceplot
 #' @examples
+#' \dontrun{
+#' }
 #'
 mytraceplot <- function(node,model=m,title="",lab=""){
 require(R2jags)
@@ -159,6 +161,8 @@ require(R2jags)
 #' @param m is an object in the class jags or bugs (the output of the MCMC run)
 #' @return the graph with the Gelmn Rubin statistics plot
 #' @examples
+#' \dontrun{
+#' }
 #'
 plotGR <- function(m) {
 require(R2jags)

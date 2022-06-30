@@ -177,7 +177,6 @@ coefplot=function(x,low=.025,upp=.975,parameter=NULL,...) {
   # If the object is in the class JAGS,then selects the relevant list
   if(any(grepl("rjags",class(x)))) {x=x$BUGSoutput}
   #
-
   x$sims.matrix %>% as_tibble() %>%
     { if(grepl("deviance",x$sims.list %>% names()) %>% any()) select(.,-deviance) else . } %>%
     { if(!is.null(parameter)) select(.,contains(parameter)) else . } %>%
@@ -194,4 +193,112 @@ coefplot=function(x,low=.025,upp=.975,parameter=NULL,...) {
     geom_linerange(aes(xmin=`2.5%`,xmax=`97.5%`),position=position_dodge(.3)) +
     geom_point(position = position_dodge(0.3)) + theme_bw() + geom_vline(xintercept=0,linetype="dashed") +
     labs(x="Interval estimate",title="Coefplot")
+}
+
+
+#' Trial-and-error Beta plot
+#'
+#' Provides a quick and dirty, trial-and-error tool to identify suitable values for the the
+#' parameters of a Beta distribution to match set properties (eg mean, sd, 95% interval)
+#'
+#' @author Gianluca Baio
+#' @keywords Beta distribution
+#' @examples
+#' \dontrun{
+#' }
+#' @export betaplot
+#'
+betaplot=function() {
+  # Checks and loads the necessary packages
+  required_packages=c("ggplot2","manipulate")
+  for (pkg in required_packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      stop("`", pkg, "` is required: install.packages('", pkg, "')")
+    }
+    if (requireNamespace(pkg, quietly = TRUE)) {
+      if (!is.element(pkg, (.packages()))) {
+        suppressMessages(suppressWarnings(attachNamespace(pkg)))
+      }
+    }
+  }
+  # Needs to create a "fake" plot (using base-R) so that 'manipulate' works OK with 'ggplot'
+  manipulate(plot(a,b,col="white",axes=F,xlab="",ylab=""),a=picker(1),b=picker(1))
+
+  # Utility functions to get stats for the resulting distribution
+  mbeta=function(a,b){a/(a+b)}
+  sdbeta=function(a,b){sqrt((a*b)/((a+b)^2*(a+b+1)))}
+  intbeta=function(a,b){c(qbeta(.025,a,b),qbeta(.975,a,b))}
+
+  # Create the actual plot using 'ggplot'
+  manipulate(
+    # Creates the plot
+    ggplot()+stat_function(fun=dbeta,args=list(shape1=a,shape2=b))+
+      xlim(0,1)+scale_y_continuous(expand = c(0, 0), limits = c(0, NA))+theme_bw()+
+      annotate(
+        "text",x=0,y=Inf,
+        label=paste0(
+          "a=",a,"\nb=",b,"\nmean=",format(mbeta(a,b),digits=3,nsmall=3),
+          "\nsd=",format(sdbeta(a,b),digits=3,nsmall=3),
+          "\n95% interval=[",format(intbeta(a,b)[1],digits=3,nsmall=3)," - ",format(intbeta(a,b)[2],digits=3,nsmall=3),"]"
+        ),
+        vjust=1.5,hjust=0,size=3
+      )+geom_segment(aes(x=intbeta(a,b)[1],xend=intbeta(a,b)[2],y=0,yend=0),size=1.5),
+    # Customise the values for the parameters
+    a=manipulate::slider(0,20,step=.01,label="Value for a",initial=0.01),
+    b=manipulate::slider(0,20,step=.01,label="Value for b",initial=0.01)
+  )
+}
+
+
+#' Trial-and-error Gamma plot
+#'
+#' Provides a quick and dirty, trial-and-error tool to identify suitable values for the the
+#' parameters of a Gamma distribution to match set properties (eg mean, sd, 95% interval)
+#'
+#' @author Gianluca Baio
+#' @keywords Gamma distribution
+#' @examples
+#' \dontrun{
+#' }
+#' @export gammaplot
+#'
+gammaplot=function() {
+  # Checks and loads the necessary packages
+  required_packages=c("ggplot2","manipulate")
+  for (pkg in required_packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      stop("`", pkg, "` is required: install.packages('", pkg, "')")
+    }
+    if (requireNamespace(pkg, quietly = TRUE)) {
+      if (!is.element(pkg, (.packages()))) {
+        suppressMessages(suppressWarnings(attachNamespace(pkg)))
+      }
+    }
+  }
+  # Needs to create a "fake" plot (using base-R) so that 'manipulate' works OK with 'ggplot'
+  manipulate(plot(a,b,col="white",axes=F,xlab="",ylab=""),a=picker(1),b=picker(1))
+
+  # Utility functions to get stats for the resulting distribution
+  mgamma=function(shape,rate){shape/rate}
+  sdgamma=function(shape,rate){sqrt(shape/rate^2)}
+  intgamma=function(shape,rate){c(qgamma(.025,shape=shape,rate=rate),qgamma(.975,shape=shape,rate=rate))}
+
+  # Create the actual plot using 'ggplot'
+  manipulate(
+    # Creates the plot
+    ggplot()+stat_function(fun=dgamma,args=list(shape=shape,rate=rate))+
+      xlim(0,30)+scale_y_continuous(expand = c(0, 0), limits = c(0, NA))+theme_bw()+
+      annotate(
+        "text",x=0,y=Inf,
+        label=paste0(
+          "shape=",shape,"\nrate=",rate,"\nmean=",format(mgamma(shape,rate),digits=3,nsmall=3),
+          "\nsd=",format(sdgamma(shape,rate),digits=3,nsmall=3),
+          "\n95% interval=[",format(intgamma(shape,rate)[1],digits=3,nsmall=3)," - ",format(intgamma(shape,rate)[2],digits=3,nsmall=3),"]"
+        ),
+        vjust=1.5,hjust=0,size=3
+      )+geom_segment(aes(x=intgamma(shape,rate)[1],xend=intgamma(shape,rate)[2],y=0,yend=0),size=1.5),
+    # Customise the values for the parameters
+    shape=manipulate::slider(0,30,step=.01,label="Value for a",initial=0.01),
+    rate=manipulate::slider(0,30,step=.01,label="Value for b",initial=0.01)
+  )
 }

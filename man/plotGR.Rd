@@ -18,5 +18,7 @@ Produces a plot of the values of the Gelman Rubin stats to determine
 visually convergence (and see clearly which node has reached it)
 }
 \examples{
+\dontrun{
+}
 
 }

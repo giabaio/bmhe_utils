@@ -23,5 +23,7 @@ the graph with the traceplot
 Makes a traceplot (eg to visualise MCMC simulations from multiple chains)
 }
 \examples{
+\dontrun{
+}
 
 }
