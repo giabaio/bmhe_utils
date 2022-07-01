@@ -203,6 +203,9 @@ coefplot=function(x,low=.025,upp=.975,parameter=NULL,...) {
 #' Provides a quick and dirty, trial-and-error tool to identify suitable values for the the
 #' parameters of a Beta distribution to match set properties (eg mean, sd, 95% interval)
 #'
+#' @param a_max The maximum value for the parameter \code{a} of the Beta distribution
+#' @param b_max The maximum value for the parameter \code{b} of the Beta distribution
+#' @param step The increment in the grid of values for \code{a} and \code{b}
 #' @author Gianluca Baio
 #' @keywords Beta distribution
 #' @examples
@@ -210,7 +213,7 @@ coefplot=function(x,low=.025,upp=.975,parameter=NULL,...) {
 #' }
 #' @export betaplot
 #'
-betaplot=function() {
+betaplot=function(a_max=30,b_max=30,step=.01) {
   # Checks and loads the necessary packages
   required_packages=c("ggplot2","manipulate")
   for (pkg in required_packages) {
@@ -235,7 +238,7 @@ betaplot=function() {
   manipulate(
     # Creates the plot
     ggplot()+stat_function(fun=dbeta,args=list(shape1=a,shape2=b))+
-      xlim(0,1)+scale_y_continuous(expand = c(0, 0), limits = c(0, NA))+theme_bw()+
+      xlim(0,1)+scale_y_continuous(expand=expansion(mult=c(0,.11)))+theme_bw()+
       annotate(
         "text",x=0,y=Inf,
         label=paste0(
@@ -246,8 +249,8 @@ betaplot=function() {
         vjust=1.5,hjust=0,size=3
       )+geom_segment(aes(x=intbeta(a,b)[1],xend=intbeta(a,b)[2],y=0,yend=0),size=1.5),
     # Customise the values for the parameters
-    a=manipulate::slider(0,20,step=.01,label="Value for a",initial=0.01),
-    b=manipulate::slider(0,20,step=.01,label="Value for b",initial=0.01)
+    a=manipulate::slider(0,a_max,step=step,label="Value for a",initial=0.01),
+    b=manipulate::slider(0,b_max,step=step,label="Value for b",initial=0.01)
   )
 }
 
@@ -257,6 +260,9 @@ betaplot=function() {
 #' Provides a quick and dirty, trial-and-error tool to identify suitable values for the the
 #' parameters of a Gamma distribution to match set properties (eg mean, sd, 95% interval)
 #'
+#' @param shape_max The maximum value for the parameter \code{shape} of the Gamma distribution
+#' @param rate_max The maximum value for the parameter \code{rate} of the Gamma distribution
+#' @param step The increment in the grid of values for \code{shape} and \code{rate}
 #' @author Gianluca Baio
 #' @keywords Gamma distribution
 #' @examples
@@ -264,7 +270,7 @@ betaplot=function() {
 #' }
 #' @export gammaplot
 #'
-gammaplot=function() {
+gammaplot=function(shape_max=30,rate_max=30,step=.01) {
   # Checks and loads the necessary packages
   required_packages=c("ggplot2","manipulate")
   for (pkg in required_packages) {
@@ -289,7 +295,7 @@ gammaplot=function() {
   manipulate(
     # Creates the plot
     ggplot()+stat_function(fun=dgamma,args=list(shape=shape,rate=rate))+
-      xlim(0,30)+scale_y_continuous(expand = c(0, 0), limits = c(0, NA))+theme_bw()+
+      xlim(0,30)+theme_bw()+scale_y_continuous(expand=expansion(mult=c(0,.11)))+ #c(0, 0), limits = c(0, NA))+
       annotate(
         "text",x=0,y=Inf,
         label=paste0(
@@ -300,7 +306,7 @@ gammaplot=function() {
         vjust=1.5,hjust=0,size=3
       )+geom_segment(aes(x=intgamma(shape,rate)[1],xend=intgamma(shape,rate)[2],y=0,yend=0),size=1.5),
     # Customise the values for the parameters
-    shape=manipulate::slider(0,30,step=.01,label="Value for a",initial=0.01),
-    rate=manipulate::slider(0,30,step=.01,label="Value for b",initial=0.01)
+    shape=manipulate::slider(0,shape_max,step=step,label="Value for a",initial=0.01),
+    rate=manipulate::slider(0,rate_max,step=step,label="Value for b",initial=0.01)
   )
 }
