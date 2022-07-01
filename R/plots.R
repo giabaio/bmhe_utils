@@ -177,6 +177,8 @@ coefplot=function(x,low=.025,upp=.975,parameter=NULL,...) {
   # If the object is in the class JAGS,then selects the relevant list
   if(any(grepl("rjags",class(x)))) {x=x$BUGSoutput}
   #
+  xmin=sym(paste0(low*100,"%"))
+  xmax=sym(paste0(upp*100,"%"))
   x$sims.matrix %>% as_tibble() %>%
     { if(grepl("deviance",x$sims.list %>% names()) %>% any()) select(.,-deviance) else . } %>%
     { if(!is.null(parameter)) select(.,contains(parameter)) else . } %>%
@@ -190,7 +192,7 @@ coefplot=function(x,low=.025,upp=.975,parameter=NULL,...) {
     ) %>%
     select(Parameter,everything()) %>%
     ggplot(aes(mean,Parameter))+
-    geom_linerange(aes(xmin=`2.5%`,xmax=`97.5%`),position=position_dodge(.3)) +
+    geom_linerange(aes(xmin=!!xmin,xmax=!!xmax),position=position_dodge(.3)) +
     geom_point(position = position_dodge(0.3)) + theme_bw() + geom_vline(xintercept=0,linetype="dashed") +
     labs(x="Interval estimate",title="Coefplot")
 }
