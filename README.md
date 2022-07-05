@@ -19,6 +19,39 @@ install.packages("remotes")
 remotes::install_github("giabaio/BCEA", ref="dev")
 ```
 
+## Use
+Load the package into the `R` workspace as usual
+```
+library(bmhe)
+```
+and use all the available functions. Roughly speaking, these can be divided into "plotting", "printing" and "utility".
+
+### Plotting
+
+- `betaplot`	Trial-and-error Beta plot
+- `coefplot`	Coefplot for the parameters in the model
+- `diagplot`	Specialised diagnostic plots
+- `gammaplot`	Trial-and-error Gamma plot
+- `mytraceplot`	Makes a traceplot (eg to visualise MCMC simulations from multiple chains)
+- `plotGR`	Produces a plot of the values of the Gelman Rubin stats to determine visually convergence (and see clearly which node has reached it)
+- `posteriorplot`	Various plots for the posteriors in a 'bugs' or 'jags' object
+- `traceplot`	Tidyverse based function to do traceplots
+
+### Printing
+
+- `print.bugs`	Modifies the built-in print method for the `R2OpenBUGS` package to provide a few more options and standardisation
+- `print.rjags`	Modifies the built-in print method for the `R2jags` package to provide a few more options and standardisation
+- `stats`	Computes and prints summary statistics for a vector or matrix of simulated values
+
+### Utility
+- `betaPar`	Computes the parameters of a Beta distribution so that the mean and standard dev are the input (m,s)
+- `betaPar2`	Compute the parameters of a Beta distribution, given a prior guess for key parameters. Based on "Bayesian ideas and data analysis", page 100. Optimisation method to identify the values of a,b that give required conditions on the Beta distribution
+- `ilogit`	Computes the inverse logit of a number between -infinity and +infinity
+- `logit`	Computes the logit of a number
+- `lognPar`	Computes mean and variance of a logNormal distribution so that the parameters on the natural scale are mu and sigma
+- `odds2probs`	Maps from odds to probabilities
+- `OR`	Computes the odds ratio between two probabilities
+
 ## Licence
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
