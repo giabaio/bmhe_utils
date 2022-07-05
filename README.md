@@ -1,4 +1,5 @@
-# BMHE - A utility package for post-processing of Bayesian models performed in `OpenBUGS` or `JAGS`
+# BMHE 
+## A utility package for post-processing of Bayesian models performed in `OpenBUGS` or `JAGS`
 
 ## Installation
 The package is only available from this `GitHub` repository, for now. On Windows machines, you need to install a few dependencies, including [Rtools](https://cran.r-project.org/bin/windows/Rtools/) first, e.g. by running
