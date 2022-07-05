@@ -28,14 +28,12 @@ and use all the available functions. Roughly speaking, these can be divided into
 
 ### Plotting
 
-- `betaplot`	Trial-and-error Beta plot
-- `coefplot`	Coefplot for the parameters in the model
-- `diagplot`	Specialised diagnostic plots
-- `gammaplot`	Trial-and-error Gamma plot
-- `mytraceplot`	Makes a traceplot (eg to visualise MCMC simulations from multiple chains)
-- `plotGR`	Produces a plot of the values of the Gelman Rubin stats to determine visually convergence (and see clearly which node has reached it)
+- `betaplot`	Trial-and-error Beta plot (using `[manipulate](https://cran.r-project.org/web/packages/manipulate/index.html)`)
+- `coefplot`	"Coefplot" for the parameters in the model (using `[tidyverse](https://www.tidyverse.org/)`)
+- `diagplot`	Specialised diagnostic plots to check convergence and autocorrelation of the MCMC run
+- `gammaplot`	Trial-and-error Gamma plot (using `[manipulate](https://cran.r-project.org/web/packages/manipulate/index.html)`)
 - `posteriorplot`	Various plots for the posteriors in a 'bugs' or 'jags' object
-- `traceplot`	Tidyverse based function to do traceplots
+- `traceplot`	Makes a traceplot (eg to visualise MCMC simulations from multiple chains, using `[tidyverse](https://www.tidyverse.org/)`)
 
 ### Printing
 
