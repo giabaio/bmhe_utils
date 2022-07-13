@@ -31,12 +31,15 @@ stats <- function(x,dim=2){
 #' simulated values - tidyverse style
 #'
 #' @param x A vector or a matrix containing simulations from, eg, BUGS
+#' @param digits The number of significant digits shown (default = 3)
+#' @param na.rm A logical value (default TRUE) to indicate whether NA should be
+#' removed
 #' @examples
 #' x=rnorm(1000)
 #' stats2(x)
 #'
 # Tidyverse version of 'stats'
-stats2 <- function(x,na.rm=TRUE) {
+stats2 <- function(x,digits=3,na.rm=TRUE) {
  # Makes sure tidyverse is installed
  required_packages=c("tidyverse")
  for (pkg in required_packages) {
@@ -49,6 +52,8 @@ stats2 <- function(x,na.rm=TRUE) {
      }
    }
  }
+ # Specifies the number of significant digits
+ options(pillar.sigfig=digits)
  # If a single vector needs to fiddle to keep the name
  if(is.null(dim(x))==TRUE) {
    nm=deparse(substitute(x))
@@ -72,7 +77,13 @@ stats2 <- function(x,na.rm=TRUE) {
        `97.5%` = quantile(value, probs = .975,na.rm=na.rm)
      )
  }
+ # As the result is a tibble, can be further post-processed, eg to fix the number
+ # of total digits (not the significant digits) to, say, 5, can do
+ # stats2(object) %>% mutate(across(where(is.numeric), num, digits=5))
+ # Or to print the table, can use 'kable'/'kableExtra', eg
+ # stats2(object) %>% knitr::kable(digits=4) %>% kableExtra::kable_styling()
 }
+
 
 #' Compute the parameters of a Beta distribution, given a prior guess for key
 #' parameters. Based on "Bayesian ideas and data analysis", page 100.

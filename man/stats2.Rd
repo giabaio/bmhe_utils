@@ -5,10 +5,15 @@
 \title{Computes and prints summary statistics for a vector or matrix of
 simulated values - tidyverse style}
 \usage{
-stats2(x, na.rm = TRUE)
+stats2(x, digits = 3, na.rm = TRUE)
 }
 \arguments{
 \item{x}{A vector or a matrix containing simulations from, eg, BUGS}
+
+\item{digits}{The number of significant digits shown (default = 3)}
+
+\item{na.rm}{A logical value (default TRUE) to indicate whether NA should be
+removed}
 }
 \description{
 Computes and prints summary statistics for a vector or matrix of
