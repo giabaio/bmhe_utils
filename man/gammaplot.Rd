@@ -4,7 +4,14 @@
 \alias{gammaplot}
 \title{Trial-and-error Gamma plot}
 \usage{
-gammaplot()
+gammaplot(shape_max = 30, rate_max = 30, step = 0.01)
+}
+\arguments{
+\item{shape_max}{The maximum value for the parameter \code{shape} of the Gamma distribution}
+
+\item{rate_max}{The maximum value for the parameter \code{rate} of the Gamma distribution}
+
+\item{step}{The increment in the grid of values for \code{shape} and \code{rate}}
 }
 \description{
 Provides a quick and dirty, trial-and-error tool to identify suitable values for the the

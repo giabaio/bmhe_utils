@@ -4,7 +4,14 @@
 \alias{betaplot}
 \title{Trial-and-error Beta plot}
 \usage{
-betaplot()
+betaplot(a_max = 30, b_max = 30, step = 0.01)
+}
+\arguments{
+\item{a_max}{The maximum value for the parameter \code{a} of the Beta distribution}
+
+\item{b_max}{The maximum value for the parameter \code{b} of the Beta distribution}
+
+\item{step}{The increment in the grid of values for \code{a} and \code{b}}
 }
 \description{
 Provides a quick and dirty, trial-and-error tool to identify suitable values for the the

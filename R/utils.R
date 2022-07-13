@@ -26,6 +26,54 @@ stats <- function(x,dim=2){
   list(tab=tab)
 }
 
+
+#' Computes and prints summary statistics for a vector or matrix of
+#' simulated values - tidyverse style
+#'
+#' @param x A vector or a matrix containing simulations from, eg, BUGS
+#' @examples
+#' x=rnorm(1000)
+#' stats2(x)
+#'
+# Tidyverse version of 'stats'
+stats2 <- function(x,na.rm=TRUE) {
+ # Makes sure tidyverse is installed
+ required_packages=c("tidyverse")
+ for (pkg in required_packages) {
+   if (!requireNamespace(pkg, quietly = TRUE)) {
+     stop("`", pkg, "` is required: install.packages('", pkg, "')")
+   }
+   if (requireNamespace(pkg, quietly = TRUE)) {
+     if (!is.element(pkg, (.packages()))) {
+       suppressMessages(suppressWarnings(attachNamespace(pkg)))
+     }
+   }
+ }
+ # If a single vector needs to fiddle to keep the name
+ if(is.null(dim(x))==TRUE) {
+   nm=deparse(substitute(x))
+   x %>% as_tibble() %>% mutate(variable=nm) %>%
+     gather("variable", "value") %>% group_by(variable) %>%
+     rename("Parameter"="variable") %>% summarise(
+       mean = mean(value,na.rm=na.rm),
+       sd = sd(value,na.rm=na.rm),
+       `2.5%` = quantile(value, probs = .025,na.rm=na.rm),
+       median = quantile(value, probs = .5,na.rm=na.rm),
+       `97.5%` = quantile(value, probs = .975,na.rm=na.rm)
+     )
+ } else {
+   # If a named matrix then can do this
+   x %>% as_tibble() %>% gather("variable", "value") %>% group_by(variable) %>%
+     rename("Parameter"="variable") %>% summarise(
+       mean = mean(value,na.rm=na.rm),
+       sd = sd(value,na.rm=na.rm),
+       `2.5%` = quantile(value, probs = .025,na.rm=na.rm),
+       median = quantile(value, probs = .5,na.rm=na.rm),
+       `97.5%` = quantile(value, probs = .975,na.rm=na.rm)
+     )
+ }
+}
+
 #' Compute the parameters of a Beta distribution, given a prior guess for key
 #' parameters. Based on "Bayesian ideas and data analysis", page 100.
 #' Optimisation method to identify the values of a,b that give required
