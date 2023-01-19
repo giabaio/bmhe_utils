@@ -176,6 +176,22 @@ lognPar <- function(m,s) {
 	list(mulog=mulog,sigmalog=sigmalog)
 }
 
+#' Computes the parameters of a Gamma distribution so that the mean and
+#' standard dev are the input (m,s)
+#'
+#' @param m The implied mean for the underlying Beta distribution
+#' @param s The implied standard deviation for the underlying Beta distribution
+#' @return The list of relevant output including the values for the
+#' parameters of the Beta distribution (alpha and beta)
+#' @examples
+#' gammaPar(12,3)
+#'
+gammaPar <- function(m,s){
+  b <- m/s^2
+  a <- m*b
+  list(shape=a,rate=b)
+}
+
 
 #' Makes a traceplot (eg to visualise MCMC simulations from multiple chains)
 #'
