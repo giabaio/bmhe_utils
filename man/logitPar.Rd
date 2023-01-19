@@ -28,6 +28,6 @@ so that, \emph{on the natural scale}, the range where most of the mass is
 included is between the input 'low' and 'upp'
 }
 \examples{
-gammaPar(12,3)
+logitPar(0.04,0.12)
 
 }

@@ -206,7 +206,7 @@ gammaPar <- function(m,s){
 #' parameters of the normal distribution (mulogit and sigmalogit),
 #' **on the logit scale**
 #' @examples
-#' gammaPar(12,3)
+#' logitPar(0.04,0.12)
 #'
 logitPar <- function(low,upp){
   # First computes the mean as the mid-point of the range selected as the most
