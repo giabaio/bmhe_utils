@@ -1,4 +1,6 @@
 exportPattern("^[[:alpha:]]+")
 
+import(tidyverse)
+import(BCEA)
 S3method(print, bugs)
 S3method(print, rjags)

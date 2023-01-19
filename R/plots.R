@@ -215,7 +215,7 @@ coefplot=function(x,low=.025,upp=.975,parameter=NULL,...) {
 #'
 betaplot=function(a_max=30,b_max=30,step=.01) {
   # Checks and loads the necessary packages
-  required_packages=c("ggplot2","manipulate")
+  required_packages=c("manipulate")
   for (pkg in required_packages) {
     if (!requireNamespace(pkg, quietly = TRUE)) {
       stop("`", pkg, "` is required: install.packages('", pkg, "')")
@@ -227,17 +227,18 @@ betaplot=function(a_max=30,b_max=30,step=.01) {
     }
   }
   # Needs to create a "fake" plot (using base-R) so that 'manipulate' works OK with 'ggplot'
-  manipulate(plot(a,b,col="white",axes=F,xlab="",ylab=""),a=picker(1),b=picker(1))
+  a=b=1 # Initialise a,b to avoid issue with no-visible binding
+  manipulate(plot(a,b,col="white",axes=F,xlab="",ylab=""),a=manipulate::picker(1),b=manipulate::picker(1))
 
   # Utility functions to get stats for the resulting distribution
   mbeta=function(a,b){a/(a+b)}
   sdbeta=function(a,b){sqrt((a*b)/((a+b)^2*(a+b+1)))}
-  intbeta=function(a,b){c(qbeta(.025,a,b),qbeta(.975,a,b))}
+  intbeta=function(a,b){c(stats::qbeta(.025,a,b),stats::qbeta(.975,a,b))}
 
   # Create the actual plot using 'ggplot'
   manipulate(
     # Creates the plot
-    ggplot()+stat_function(fun=dbeta,args=list(shape1=a,shape2=b))+
+    ggplot()+stat_function(fun=stats::dbeta,args=list(shape1=a,shape2=b))+
       xlim(0,1)+scale_y_continuous(expand=expansion(mult=c(0,.11)))+theme_bw()+
       annotate(
         "text",x=0,y=Inf,
@@ -272,7 +273,7 @@ betaplot=function(a_max=30,b_max=30,step=.01) {
 #'
 gammaplot=function(shape_max=30,rate_max=30,step=.01) {
   # Checks and loads the necessary packages
-  required_packages=c("ggplot2","manipulate")
+  required_packages=c("manipulate")
   for (pkg in required_packages) {
     if (!requireNamespace(pkg, quietly = TRUE)) {
       stop("`", pkg, "` is required: install.packages('", pkg, "')")

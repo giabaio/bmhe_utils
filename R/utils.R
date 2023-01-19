@@ -77,8 +77,8 @@ stats2 <- function(x,digits=3,na.rm=TRUE) {
        `97.5%` = quantile(value, probs = .975,na.rm=na.rm)
      )
  }
- # As the result is a tibble, can be further post-processed, eg to fix the number
- # of total digits (not the significant digits) to, say, 5, can do
+ # As the result is a tibble, it can be further post-processed, eg to fix the number
+ # of total digits (not the significant digits!) to, say, 5, can do
  # stats2(object) %>% mutate(across(where(is.numeric), num, digits=5))
  # Or to print the table, can use 'kable'/'kableExtra', eg
  # stats2(object) %>% knitr::kable(digits=4) %>% kableExtra::kable_styling()
@@ -190,7 +190,16 @@ lognPar <- function(m,s) {
 #' }
 #'
 mytraceplot <- function(node,model=m,title="",lab=""){
-require(R2jags)
+  for (pkg in required_packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      stop("`", pkg, "` is required: install.packages('", pkg, "')")
+    }
+    if (requireNamespace(pkg, quietly = TRUE)) {
+      if (!is.element(pkg, (.packages()))) {
+        suppressMessages(suppressWarnings(attachNamespace(pkg)))
+      }
+    }
+  }
 	xlab <- "Iteration"
 ## this way works with R2jags as well as with R2WinBUGS
 	cmd <- ifelse(class(model)=="rjags",mdl <- model$BUGSoutput,mdl <- model)
@@ -224,7 +233,6 @@ require(R2jags)
 #' }
 #'
 plotGR <- function(m) {
-require(R2jags)
 cmd <- ifelse(class(m)=="rjags",mdl <- m$BUGSoutput,mdl <- m)
 plot(mdl$summary[,"Rhat"],xlab="Saved parameters",ylab="Gelman-Rubin diagnostic",
 	axes=F,col="white")

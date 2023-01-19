@@ -13,6 +13,17 @@
 #' @author Gianluca Baio
 #' @keywords print
 print.rjags <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.975), ...) {
+  required_packages=c("R2jags")
+  for (pkg in required_packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      stop("`", pkg, "` is required: install.packages('", pkg, "')")
+    }
+    if (requireNamespace(pkg, quietly = TRUE)) {
+      if (!is.element(pkg, (.packages()))) {
+        suppressMessages(suppressWarnings(attachNamespace(pkg)))
+      }
+    }
+  }
   x <- x$BUGSoutput
   sims.matrix <- x$sims.matrix
   mu.vect <- apply(sims.matrix, 2, mean)
@@ -85,6 +96,17 @@ print.rjags <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.9
 #' @author Gianluca Baio
 #' @keywords print
 print.bugs <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.975), ...) {
+  required_packages=c("R2OpenBUGS")
+  for (pkg in required_packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      stop("`", pkg, "` is required: install.packages('", pkg, "')")
+    }
+    if (requireNamespace(pkg, quietly = TRUE)) {
+      if (!is.element(pkg, (.packages()))) {
+        suppressMessages(suppressWarnings(attachNamespace(pkg)))
+      }
+    }
+  }
   sims.matrix <- x$sims.matrix
   mu.vect <- apply(sims.matrix, 2, mean)
   sd.vect <- apply(sims.matrix, 2, sd)
@@ -141,6 +163,16 @@ print.bugs <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.97
   #print(x$BUGSoutput,...)
 }
 
-
+#' Rounding
+#'
+#' Rounds results
+#'
+#'
+#' @param x an object of class `bugs', see \code{\link{bugs}} for details
+#' @param digits number of digits to round
+#' @seealso \code{\link{bugs}}
+#' @author Gianluca Baio
+#' @keywords print
+#' @noRd
 fround <- function(x, digits)
   format(round(x, digits), nsmall=digits)
