@@ -2,8 +2,9 @@
 % Please edit documentation in R/utils.R
 \name{logitPar}
 \alias{logitPar}
-\title{Computes the parameters of a Gamma distribution so that the mean and
-standard dev are the input (m,s)}
+\title{Computes the parameters of a Normal distribution \emph{on the logit scale},
+so that, \emph{on the natural scale}, the range where most of the mass is
+included is between the input 'low' and 'upp'}
 \usage{
 logitPar(low, upp)
 }
@@ -22,8 +23,9 @@ parameters of the normal distribution (mulogit and sigmalogit),
 \strong{on the logit scale}
 }
 \description{
-Computes the parameters of a Gamma distribution so that the mean and
-standard dev are the input (m,s)
+Computes the parameters of a Normal distribution \emph{on the logit scale},
+so that, \emph{on the natural scale}, the range where most of the mass is
+included is between the input 'low' and 'upp'
 }
 \examples{
 gammaPar(12,3)

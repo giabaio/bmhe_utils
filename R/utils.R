@@ -192,8 +192,9 @@ gammaPar <- function(m,s){
   list(shape=a,rate=b)
 }
 
-#' Computes the parameters of a Gamma distribution so that the mean and
-#' standard dev are the input (m,s)
+#' Computes the parameters of a Normal distribution *on the logit scale*,
+#' so that, *on the natural scale*, the range where most of the mass is
+#' included is between the input 'low' and 'upp'
 #'
 #' @param low The lower extreme of an implied range that is supposed to cover
 #' "most" of the mass under the natural scale of the distribution of the
