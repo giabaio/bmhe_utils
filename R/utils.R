@@ -182,7 +182,7 @@ lognPar <- function(m,s) {
 #' @param m The implied mean for the underlying Beta distribution
 #' @param s The implied standard deviation for the underlying Beta distribution
 #' @return The list of relevant output including the values for the
-#' parameters of the Beta distribution (alpha and beta)
+#' parameters of the Gamma distribution (shape and rate)
 #' @examples
 #' gammaPar(12,3)
 #'
@@ -192,6 +192,29 @@ gammaPar <- function(m,s){
   list(shape=a,rate=b)
 }
 
+#' Computes the parameters of a Gamma distribution so that the mean and
+#' standard dev are the input (m,s)
+#'
+#' @param low The lower extreme of an implied range that is supposed to cover
+#' "most" of the mass under the natural scale of the distribution of the
+#' parameter (defined in [0,1])
+#' @param upp The upper extreme of an implied range that is supposed to cover
+#' "most" of the mass under the natural scale of the distribution of the
+#' parameter (defined in [0,1])
+#' @return The list of relevant output including the values for the
+#' parameters of the normal distribution (mulogit and sigmalogit),
+#' **on the logit scale**
+#' @examples
+#' gammaPar(12,3)
+#'
+logitPar <- function(low,upp){
+  # First computes the mean as the mid-point of the range selected as the most
+  # likely for the underlying distribution (on the natural scale)
+  m <- (upp+low)/2
+  mulogit <- logit(m)
+  sigmalogit <- (logit(upp)-logit(m))/qnorm(.975)
+  list(mulogit=mulogit,sigmalogit=sigmalogit)
+}
 
 #' Makes a traceplot (eg to visualise MCMC simulations from multiple chains)
 #'

@@ -14,7 +14,7 @@ gammaPar(m, s)
 }
 \value{
 The list of relevant output including the values for the
-parameters of the Beta distribution (alpha and beta)
+parameters of the Gamma distribution (shape and rate)
 }
 \description{
 Computes the parameters of a Gamma distribution so that the mean and
