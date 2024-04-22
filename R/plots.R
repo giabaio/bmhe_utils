@@ -330,19 +330,19 @@ gammaplot=function(shape_max=30,rate_max=30,step=.01) {
 #' }
 #' @export acfplot
 #'
-acfplot=function(x) {
-  ac=acf(x,plot=F,...)
+acfplot=function(x,...) {
   # Needs to add options to customise
   # a. calling the `stats::acf` function
   # b. the `ggplot` graph
   #
+  ac=acf(x,plot=F)
   tibble(x=ac$lag,y=ac$acf) |>
     ggplot(aes(x,y))+geom_hline(aes(yintercept = 0)) +
     geom_segment(mapping = aes(xend = x, yend = 0),linewidth=1) + theme_bw() +
     geom_hline(aes(
-      yintercept=qnorm((1 + (1 - 0.05))/2)/sqrt(acf_theta$n.used)
+      yintercept=qnorm((1 + (1 - 0.05))/2)/sqrt(ac$n.used)
     ), linetype = 2, color = 'blue') +
     geom_hline(aes(
-      yintercept=-qnorm((1 + (1 - 0.05))/2)/sqrt(acf_theta$n.used)
+      yintercept=-qnorm((1 + (1 - 0.05))/2)/sqrt(ac$n.used)
     ), linetype = 2, color = 'blue') + xlab("Lag") + ylab("ACF")
 }
