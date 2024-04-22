@@ -27,6 +27,11 @@ traceplot=function(x,parameter=NULL,...) {
   # If the object is in the class JAGS,then selects the relevant list
   if(any(grepl("rjags",class(x)))) {x=x$BUGSoutput}
   #
+  if(is.null(parameter)) {
+    title="Traceplot for all model parameters"
+  } else {
+    title=paste0("Traceplot for ",parameter)
+  }
   x$sims.array %>%
     as_tibble(.name_repair = ~paste0("Chain",x$sims.array %>% as_tibble() %>% colnames())) %>%
     # This is only run if 'parameter' is not null (so some parameters are selected by the user)
@@ -36,8 +41,7 @@ traceplot=function(x,parameter=NULL,...) {
     separate(variable,c("chain","parameter"),extra = "merge") %>%
     ggplot(aes(x=iteration,y=value,color=chain))+
     geom_line()+facet_wrap(~parameter,scales="free")+
-    labs(title="Traceplot for all model parameters")+
-    theme_bw()
+    labs(title=title)+ theme_bw()
 }
 
 
@@ -310,4 +314,35 @@ gammaplot=function(shape_max=30,rate_max=30,step=.01) {
     shape=manipulate::slider(0,shape_max,step=step,label="Value for a",initial=0.01),
     rate=manipulate::slider(0,rate_max,step=step,label="Value for b",initial=0.01)
   )
+}
+
+
+#' Autocorrelation plot
+#'
+#' Plots the ACF function
+#'
+#' @param x A vector with simulations from a MCMC process (eg from a \code{BUGS}
+#' or \code{JAGS} run)
+#' @author Gianluca Baio
+#' @keywords Autocorrelation function
+#' @examples
+#' \dontrun{
+#' }
+#' @export acfplot
+#'
+acfplot=function(x) {
+  ac=acf(x,plot=F,...)
+  # Needs to add options to customise
+  # a. calling the `stats::acf` function
+  # b. the `ggplot` graph
+  #
+  tibble(x=ac$lag,y=ac$acf) |>
+    ggplot(aes(x,y))+geom_hline(aes(yintercept = 0)) +
+    geom_segment(mapping = aes(xend = x, yend = 0),linewidth=1) + theme_bw() +
+    geom_hline(aes(
+      yintercept=qnorm((1 + (1 - 0.05))/2)/sqrt(acf_theta$n.used)
+    ), linetype = 2, color = 'blue') +
+    geom_hline(aes(
+      yintercept=-qnorm((1 + (1 - 0.05))/2)/sqrt(acf_theta$n.used)
+    ), linetype = 2, color = 'blue') + xlab("Lag") + ylab("ACF")
 }
