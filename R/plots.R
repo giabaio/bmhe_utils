@@ -323,6 +323,7 @@ gammaplot=function(shape_max=30,rate_max=30,step=.01) {
 #'
 #' @param x A vector with simulations from a MCMC process (eg from a \code{BUGS}
 #' or \code{JAGS} run)
+#' @param col The color with which to plot the ACF (default to \code{"black"})
 #' @author Gianluca Baio
 #' @keywords Autocorrelation function
 #' @examples
@@ -330,7 +331,7 @@ gammaplot=function(shape_max=30,rate_max=30,step=.01) {
 #' }
 #' @export acfplot
 #'
-acfplot=function(x,...) {
+acfplot=function(x,col="black",...) {
   # Needs to add options to customise
   # a. calling the `stats::acf` function
   # b. the `ggplot` graph
@@ -338,7 +339,7 @@ acfplot=function(x,...) {
   ac=acf(x,plot=F)
   tibble(x=ac$lag,y=ac$acf) |>
     ggplot(aes(x,y))+geom_hline(aes(yintercept = 0)) +
-    geom_segment(mapping = aes(xend = x, yend = 0),linewidth=1) + theme_bw() +
+    geom_segment(mapping = aes(xend = x, yend = 0),linewidth=1,col=col) + theme_bw() +
     geom_hline(aes(
       yintercept=qnorm((1 + (1 - 0.05))/2)/sqrt(ac$n.used)
     ), linetype = 2, color = 'blue') +
