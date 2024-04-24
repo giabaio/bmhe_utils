@@ -4,7 +4,7 @@
 \alias{posteriorplot}
 \title{Various plots for the posteriors in a \code{bugs} or \code{jags} object}
 \usage{
-posteriorplot(x, parameter = NULL, plot = "density", ...)
+posteriorplot(x, parameter = NULL, plot = "density", add_deviance = FALSE, ...)
 }
 \arguments{
 \item{x}{an object of class `bugs', see \code{\link{bugs}}, or of class
@@ -16,6 +16,9 @@ the density plot. Can be a vector, eg \code{c("par1","par2")}}
 \item{plot}{the type of plot (options are 'density' (default) or
 'bar' for a binned barplot of the posterior) or
 'hist' for a histogram}
+
+\item{add_deviance}{a logical argument to determine whether the \code{deviance}
+should be added to the plot (in case it is monitored). Defaults to \code{FALSE}}
 
 \item{...}{further arguments to \code{\link{densityplot}}}
 }

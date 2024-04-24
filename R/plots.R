@@ -55,11 +55,13 @@ traceplot=function(x,parameter=NULL,...) {
 #' @param plot the type of plot (options are 'density' (default) or
 #' 'bar' for a binned barplot of the posterior) or
 #' 'hist' for a histogram
+#' @param add_deviance a logical argument to determine whether the `deviance`
+#' should be added to the plot (in case it is monitored). Defaults to `FALSE`
 #' @param ... further arguments to \code{\link{densityplot}}
 #' @author Gianluca Baio
 #' @seealso \code{\link{bugs}}, \code{\link{jags}}
 #' @export posteriorplot
-posteriorplot=function(x,parameter=NULL,plot="density",...) {
+posteriorplot=function(x,parameter=NULL,plot="density",add_deviance=FALSE,...) {
   # Makes sure tidyverse is installed
   required_packages=c("tidyverse")
   for (pkg in required_packages) {
@@ -78,6 +80,7 @@ posteriorplot=function(x,parameter=NULL,plot="density",...) {
 
   if(plot=="density") {
     p=x$sims.matrix %>% as_tibble() %>%
+      { if(grepl("deviance",x$sims.list %>% names()) %>% any() && !add_deviance) select(.,-deviance) else . } %>%
       { if(!is.null(parameter)) select(.,contains(parameter)) else . } %>%
       gather(variable,value,1:ncol(.)) %>%
       ggplot(aes(value))+geom_density()+facet_wrap(~variable,scales="free") +
@@ -85,6 +88,7 @@ posteriorplot=function(x,parameter=NULL,plot="density",...) {
   }
   if(plot=="bar") {
     p=x$sims.matrix %>% as_tibble() %>%
+      { if(grepl("deviance",x$sims.list %>% names()) %>% any() && !add_deviance) select(.,-deviance) else . } %>%
       { if(!is.null(parameter)) select(.,contains(parameter)) else . } %>%
       gather(variable,value,1:ncol(.)) %>%
       ggplot(aes(value))+geom_bar()+scale_x_binned() + facet_wrap(~variable,scales="free") +
@@ -92,6 +96,7 @@ posteriorplot=function(x,parameter=NULL,plot="density",...) {
   }
   if(plot=="hist") {
     p=x$sims.matrix %>% as_tibble() %>%
+      { if(grepl("deviance",x$sims.list %>% names()) %>% any() && !add_deviance) select(.,-deviance) else . } %>%
       { if(!is.null(parameter)) select(.,contains(parameter)) else . } %>%
       gather(variable,value,1:ncol(.)) %>%
       ggplot(aes(value))+geom_histogram()+ facet_wrap(~variable,scales="free") +theme_bw()
@@ -324,6 +329,13 @@ gammaplot=function(shape_max=30,rate_max=30,step=.01) {
 #' @param x A vector with simulations from a MCMC process (eg from a \code{BUGS}
 #' or \code{JAGS} run)
 #' @param col The color with which to plot the ACF (default to \code{"black"})
+#' @param parameter A text string to select a named parameter (eg if using
+#' a \code{BUGS} or \code{JAGS} object, that would be one of the monitored
+#' parameters)
+#' @param add_deviance a logical argument to determine whether the `deviance`
+#' should be added to the plot (in case it is monitored). Defaults to `TRUE`,but
+#' is only relevant if the input object `x` is a \code{BUGS} or \code{JAGS}
+#' object
 #' @author Gianluca Baio
 #' @keywords Autocorrelation function
 #' @examples
@@ -331,19 +343,63 @@ gammaplot=function(shape_max=30,rate_max=30,step=.01) {
 #' }
 #' @export acfplot
 #'
-acfplot=function(x,col="black",...) {
+acfplot=function(x,col="black",parameter=NULL,add_deviance=TRUE,...) {
   # Needs to add options to customise
   # a. calling the `stats::acf` function
   # b. the `ggplot` graph
   #
-  ac=acf(x,plot=F)
-  tibble(x=ac$lag,y=ac$acf) |>
-    ggplot(aes(x,y))+geom_hline(aes(yintercept = 0)) +
-    geom_segment(mapping = aes(xend = x, yend = 0),linewidth=1,col=col) + theme_bw() +
-    geom_hline(aes(
-      yintercept=qnorm((1 + (1 - 0.05))/2)/sqrt(ac$n.used)
-    ), linetype = 2, color = 'blue') +
-    geom_hline(aes(
-      yintercept=-qnorm((1 + (1 - 0.05))/2)/sqrt(ac$n.used)
-    ), linetype = 2, color = 'blue') + xlab("Lag") + ylab("ACF")
+  required_packages=c("tidyverse")
+  for (pkg in required_packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      stop("`", pkg, "` is required: install.packages('", pkg, "')")
+    }
+    if (requireNamespace(pkg, quietly = TRUE)) {
+      if (!is.element(pkg, (.packages()))) {
+        suppressMessages(suppressWarnings(attachNamespace(pkg)))
+      }
+    }
+  }
+  # If the object is in the class JAGS,then selects the relevant list
+  if(class(x) %in% c("rjags","bugs")) {
+    if(any(grepl("rjags",class(x)))) {
+      x=x$BUGSoutput
+    }
+    ac=x$sims.matrix %>% as_tibble() %>%
+      { if(grepl("deviance",x$sims.list %>% names()) %>% any() && !add_deviance) select(.,-deviance) else . } %>%
+      { if(!is.null(parameter)) select(.,contains(parameter)) else . } %>%
+      lapply(.,acf,plot=FALSE)
+
+    tab=ac[[1]] |> map_df(~.) |> mutate(series=names(ac)[1])
+    if(length(ac)>1) {
+      for (i in 2:length(ac)) {
+        tab=tab |> bind_rows(ac[[i]] |> map_df(~.) |> mutate(series=names(ac)[i]))
+      }
+    }
+    p=tab |>
+      ggplot(aes(lag,acf))+geom_hline(aes(yintercept = 0)) +
+      geom_segment(mapping = aes(xend = lag, yend = 0),linewidth=1,col=col) +
+      geom_hline(aes(
+        yintercept=qnorm((1 + (1 - 0.05))/2)/sqrt(n.used)
+      ), linetype = 2, color = 'blue') +
+      geom_hline(aes(
+        yintercept=-qnorm((1 + (1 - 0.05))/2)/sqrt(n.used)
+      ), linetype = 2, color = 'blue') + xlab("Lag") + ylab("ACF")+
+      facet_wrap(~series,scales="free") +
+      theme_bw()
+  }
+
+  # If the object is a vector, then plot the ACF for that single variable
+  if(class(x)=="numeric") {
+    ac=acf(x,plot=F)
+    p=tibble(x=ac$lag,y=ac$acf) |>
+      ggplot(aes(x,y))+geom_hline(aes(yintercept = 0)) +
+      geom_segment(mapping = aes(xend = x, yend = 0),linewidth=1,col=col) + theme_bw() +
+      geom_hline(aes(
+        yintercept=qnorm((1 + (1 - 0.05))/2)/sqrt(ac$n.used)
+      ), linetype = 2, color = 'blue') +
+      geom_hline(aes(
+        yintercept=-qnorm((1 + (1 - 0.05))/2)/sqrt(ac$n.used)
+      ), linetype = 2, color = 'blue') + xlab("Lag") + ylab("ACF")
+  }
+  p
 }

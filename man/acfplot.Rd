@@ -4,11 +4,22 @@
 \alias{acfplot}
 \title{Autocorrelation plot}
 \usage{
-acfplot(x)
+acfplot(x, col = "black", parameter = NULL, add_deviance = TRUE, ...)
 }
 \arguments{
 \item{x}{A vector with simulations from a MCMC process (eg from a \code{BUGS}
 or \code{JAGS} run)}
+
+\item{col}{The color with which to plot the ACF (default to \code{"black"})}
+
+\item{parameter}{A text string to select a named parameter (eg if using
+a \code{BUGS} or \code{JAGS} object, that would be one of the monitored
+parameters)}
+
+\item{add_deviance}{a logical argument to determine whether the \code{deviance}
+should be added to the plot (in case it is monitored). Defaults to \code{TRUE},but
+is only relevant if the input object \code{x} is a \code{BUGS} or \code{JAGS}
+object}
 }
 \description{
 Plots the ACF function
