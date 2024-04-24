@@ -11,11 +11,11 @@ logitPar(low, upp)
 \arguments{
 \item{low}{The lower extreme of an implied range that is supposed to cover
 "most" of the mass under the natural scale of the distribution of the
-parameter (defined in \link{0,1})}
+parameter (defined in the interval 0--1)}
 
 \item{upp}{The upper extreme of an implied range that is supposed to cover
 "most" of the mass under the natural scale of the distribution of the
-parameter (defined in \link{0,1})}
+parameter (defined in the interval 0--1)}
 }
 \value{
 The list of relevant output including the values for the

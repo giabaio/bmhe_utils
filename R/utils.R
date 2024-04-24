@@ -2,27 +2,61 @@
 #' simulated values
 #'
 #' @param x A vector or a matrix containing simulations from, eg, BUGS
+#' @param dim The dimension alongside which the summaries should be taken
+#' (by default is 2, which means the simulations are stored as a matrix,
+#' where the variables are columns)
+#' @param out A string indicating whether the output of the summary should be
+#' formatted as a "normal" vector or matrix (default), or as a tibble.
+#' Acceptable values are \code{"table"} (default) or \code{"tibble"}
+#' @param ... Additional parameters that can be passed for the option
+#' \code{out="tibble"}; includes `digits` (the number of significant digits
+#' to print) and `na.rm` (a logical value to indicate whether to remove the
+#' missing values from the calculations of the summaries)
 #' @return A table with some specific summary statistics
+#' @export stats
 #' @examples
 #' x=rnorm(1000)
 #' stats(x)
 #'
-stats <- function(x,dim=2){
+stats <- function(x,dim=2,out="table",...){
+  # Extra arguments
+  exArgs=list(...)
+  if (exists("digits",exArgs)) {
+    digits <- exArgs$digits
+  } else {
+    digits <- 3
+  }
+  if (exists("na.rm",exArgs)) {
+    na.rm <- exArgs$na.rm
+  } else {
+    na.rm <- TRUE
+  }
+
   # This is a utility function that is used by 'stats' to produce the summaries
   bugs.stats <- function(x) {
     ## Used by the function stats
     c(mean(x),sd(x),quantile(x,.025),median(x),quantile(x,.975))
   }
 
-  if(is.null(dim(x))==TRUE) {
-	  tab <- bugs.stats(x)
-	  names(tab) <- c("mean","sd","2.5%","median","97.5%")
+  # Default output to a "normal" table
+  if(out=="table") {
+    if(is.null(dim(x))==TRUE) {
+      tab <- bugs.stats(x)
+      names(tab) <- c("mean","sd","2.5%","median","97.5%")
+    }
+    ## for a matrix, it's a bit more complex --- need to specify the dimension along which want to take stats
+    if(is.null(dim(x))==FALSE) {
+      tab <- t(apply(x,dim,function(x) bugs.stats(x)))
+      colnames(tab) <- c("mean","sd","2.5%","median","97.5%")
+    }
   }
-  ## for a matrix, it's a bit more complex --- need to specify the dimension along which want to take stats
-  if(is.null(dim(x))==FALSE) {
-  	tab <- t(apply(x,dim,function(x) bugs.stats(x)))
-  	colnames(tab) <- c("mean","sd","2.5%","median","97.5%")
+
+  # If output is specified as tibble
+  if(out=="tibble") {
+    tab=stats2(x,digits=digits,na.rm=TRUE)
   }
+
+
   #list(tab=tab)
   return(tab)
 }
@@ -35,11 +69,7 @@ stats <- function(x,dim=2){
 #' @param digits The number of significant digits shown (default = 3)
 #' @param na.rm A logical value (default TRUE) to indicate whether NA should be
 #' removed
-#' @examples
-#' x=rnorm(1000)
-#' stats2(x)
 #'
-# Tidyverse version of 'stats'
 stats2 <- function(x,digits=3,na.rm=TRUE) {
  # Makes sure tidyverse is installed
  required_packages=c("tidyverse")
@@ -97,6 +127,7 @@ stats2 <- function(x,digits=3,na.rm=TRUE) {
 #' @return The list of relevant output including the values for the
 #' parameters of the Beta distribution and some underlying summary statistics
 #' of the resulting variable
+#' @export betaPar2
 #' @examples
 #' res=betaPar2(.6,.7,.9)
 #'
@@ -149,6 +180,7 @@ alpha=res1,beta=res2,theta.mode=theta.mode,theta.mean=theta.mean,theta.median=th
 #' @param s The implied standard deviation for the underlying Beta distribution
 #' @return The list of relevant output including the values for the
 #' parameters of the Beta distribution (alpha and beta)
+#' @export betaPar
 #' @examples
 #' betaPar(.5,.15)
 #'
@@ -167,6 +199,7 @@ betaPar <- function(m,s){
 #' @return The list of relevant output including the values for the
 #' parameters of the logNormal distribution in terms of the mean on the log
 #' scale (mulog) and the sd on the log scale (sigmalog)
+#' @export lognPar
 #' @examples
 #' lognPar(3,.15)
 lognPar <- function(m,s) {
@@ -184,6 +217,7 @@ lognPar <- function(m,s) {
 #' @param s The implied standard deviation for the underlying Beta distribution
 #' @return The list of relevant output including the values for the
 #' parameters of the Gamma distribution (shape and rate)
+#' @export gammaPar
 #' @examples
 #' gammaPar(12,3)
 #'
@@ -199,13 +233,14 @@ gammaPar <- function(m,s){
 #'
 #' @param low The lower extreme of an implied range that is supposed to cover
 #' "most" of the mass under the natural scale of the distribution of the
-#' parameter (defined in [0,1])
+#' parameter (defined in the interval 0--1)
 #' @param upp The upper extreme of an implied range that is supposed to cover
 #' "most" of the mass under the natural scale of the distribution of the
-#' parameter (defined in [0,1])
+#' parameter (defined in the interval 0--1)
 #' @return The list of relevant output including the values for the
 #' parameters of the normal distribution (mulogit and sigmalogit),
 #' **on the logit scale**
+#' @export logitPar
 #' @examples
 #' logitPar(0.04,0.12)
 #'
@@ -290,6 +325,7 @@ box()
 #'
 #' @param x a number between 0 and 1
 #' @return logit(x)=log(x/(1-x))
+#' @export logit
 #' @examples
 #' logit(.2)
 #'
@@ -300,6 +336,7 @@ logit <- function(x){log(x/(1-x))}
 #'
 #' @param x a real number
 #' @return inverse-logit(x) = exp(x)/(1+exp(x))
+#' @export ilogit
 #' @examples
 #' ilogit(2)
 #'
@@ -310,6 +347,7 @@ ilogit <- function(x){exp(x)/(1+exp(x))}
 #'
 #' @param odds the odds ratio *against* p: OR=(1-p)/p
 #' @return the value of the underlying probability, p
+#' @export odds2probs
 #' @examples
 #' odds2probs(4)
 #'
@@ -324,6 +362,7 @@ odds2probs <- function(odds) {
 #' @param p1 a probability
 #' @param p2 another probability
 #' @return OR=(p1/(1-p1))/(p2/(1-p2))
+#' @export OR
 #' @examples
 #' OR(.5,.2)
 #'

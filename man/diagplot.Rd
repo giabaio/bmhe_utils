@@ -7,8 +7,8 @@
 diagplot(x, what = "Rhat", ...)
 }
 \arguments{
-\item{x}{an object of class `bugs', see \code{\link{bugs}}, or of class
-'jags', see \code{\link{jags}} for details}
+\item{x}{an object of class `bugs', see \code{BUGS}, or of class
+'jags', see \code{JAGS} for details}
 
 \item{what}{A string indicating what diagnostic measure should be plotted.
 Options are 'Rhat' (default), indicating the PSR statistic, or 'n.eff',
@@ -25,7 +25,7 @@ the Potential Scale Reduction and the effective sample size
 }
 }
 \seealso{
-\code{\link{bugs}}, \code{\link{jags}}
+\code{BUGS}, \code{JAGS}
 }
 \author{
 Gianluca Baio

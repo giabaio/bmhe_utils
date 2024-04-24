@@ -11,6 +11,7 @@
 #' @param ... further arguments to \code{\link{print}}
 #' @seealso \code{\link{jags}}
 #' @author Gianluca Baio
+#' @export
 #' @keywords print
 print.rjags <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.975), ...) {
   required_packages=c("R2jags")
@@ -94,6 +95,7 @@ print.rjags <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.9
 #' @param ... further arguments to \code{\link{print}}
 #' @seealso \code{\link{bugs}}
 #' @author Gianluca Baio
+#' @export
 #' @keywords print
 print.bugs <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.975), ...) {
   required_packages=c("R2OpenBUGS")

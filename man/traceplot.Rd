@@ -7,8 +7,8 @@
 traceplot(x, parameter = NULL, ...)
 }
 \arguments{
-\item{x}{an object of class `bugs', see \code{\link{bugs}}, or of class
-'jags', see \code{\link{jags}} for details. It can also be a vector with
+\item{x}{an object of class `bugs', see \code{BUGS}, or of class
+'jags', see \code{JAGS} for details. It can also be a vector with
 simulations for a single variable}
 
 \item{parameter}{a string with the name of the parameter for which to show
@@ -20,7 +20,7 @@ the traceplot. Can be a vector, eg \code{c("par1","par2")}}
 Traceplot for a \code{bugs} or \code{jags} object
 }
 \seealso{
-\code{\link{bugs}}, \code{\link{jags}}
+\code{BUGS}, \code{JAGS}
 }
 \author{
 Gianluca Baio

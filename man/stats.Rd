@@ -5,10 +5,23 @@
 \title{Computes and prints summary statistics for a vector or matrix of
 simulated values}
 \usage{
-stats(x, dim = 2)
+stats(x, dim = 2, out = "table", ...)
 }
 \arguments{
 \item{x}{A vector or a matrix containing simulations from, eg, BUGS}
+
+\item{dim}{The dimension alongside which the summaries should be taken
+(by default is 2, which means the simulations are stored as a matrix,
+where the variables are columns)}
+
+\item{out}{A string indicating whether the output of the summary should be
+formatted as a "normal" vector or matrix (default), or as a tibble.
+Acceptable values are \code{"table"} (default) or \code{"tibble"}}
+
+\item{...}{Additional parameters that can be passed for the option
+\code{out="tibble"}; includes \code{digits} (the number of significant digits
+to print) and \code{na.rm} (a logical value to indicate whether to remove the
+missing values from the calculations of the summaries)}
 }
 \value{
 A table with some specific summary statistics

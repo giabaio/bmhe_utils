@@ -7,8 +7,8 @@
 posteriorplot(x, parameter = NULL, plot = "density", add_deviance = FALSE, ...)
 }
 \arguments{
-\item{x}{an object of class `bugs', see \code{\link{bugs}}, or of class
-'jags', see \code{\link{jags}} for details}
+\item{x}{an object of class `bugs', see \code{BUGS}, or of class
+'jags', see \code{JAGS} for details}
 
 \item{parameter}{a string with the name of the parameter for which to show
 the density plot. Can be a vector, eg \code{c("par1","par2")}}
@@ -26,7 +26,7 @@ should be added to the plot (in case it is monitored). Defaults to \code{FALSE}}
 Various plots for the posteriors in a \code{bugs} or \code{jags} object
 }
 \seealso{
-\code{\link{bugs}}, \code{\link{jags}}
+\code{BUGS}, \code{JAGS}
 }
 \author{
 Gianluca Baio

@@ -3,14 +3,14 @@
 #' Traceplot for a \code{bugs} or \code{jags} object
 #'
 #'
-#' @param x an object of class `bugs', see \code{\link{bugs}}, or of class
-#' 'jags', see \code{\link{jags}} for details. It can also be a vector with
+#' @param x an object of class `bugs', see \code{BUGS}, or of class
+#' 'jags', see \code{JAGS} for details. It can also be a vector with
 #' simulations for a single variable
 #' @param parameter a string with the name of the parameter for which to show
 #' the traceplot. Can be a vector, eg \code{c("par1","par2")}
 #' @param ... further arguments to \code{\link{traceplot}}
 #' @author Gianluca Baio
-#' @seealso \code{\link{bugs}}, \code{\link{jags}}
+#' @seealso \code{BUGS}, \code{JAGS}
 #' @export traceplot
 traceplot=function(x,parameter=NULL,...) {
   # Makes sure tidyverse is installed
@@ -61,8 +61,8 @@ traceplot=function(x,parameter=NULL,...) {
 #' Various plots for the posteriors in a \code{bugs} or \code{jags} object
 #'
 #'
-#' @param x an object of class `bugs', see \code{\link{bugs}}, or of class
-#' 'jags', see \code{\link{jags}} for details
+#' @param x an object of class `bugs', see \code{BUGS}, or of class
+#' 'jags', see \code{JAGS} for details
 #' @param parameter a string with the name of the parameter for which to show
 #' the density plot. Can be a vector, eg \code{c("par1","par2")}
 #' @param plot the type of plot (options are 'density' (default) or
@@ -72,7 +72,7 @@ traceplot=function(x,parameter=NULL,...) {
 #' should be added to the plot (in case it is monitored). Defaults to `FALSE`
 #' @param ... further arguments to \code{\link{densityplot}}
 #' @author Gianluca Baio
-#' @seealso \code{\link{bugs}}, \code{\link{jags}}
+#' @seealso \code{BUGS}, \code{JAGS}
 #' @export posteriorplot
 posteriorplot=function(x,parameter=NULL,plot="density",add_deviance=FALSE,...) {
   # Makes sure tidyverse is installed
@@ -123,14 +123,14 @@ posteriorplot=function(x,parameter=NULL,plot="density",add_deviance=FALSE,...) {
 #' Creates a plot showing the output of convergence indicators, such as
 #' the Potential Scale Reduction and the effective sample size
 #'
-#' @param x an object of class `bugs', see \code{\link{bugs}}, or of class
-#' 'jags', see \code{\link{jags}} for details
+#' @param x an object of class `bugs', see \code{BUGS}, or of class
+#' 'jags', see \code{JAGS} for details
 #' @param what A string indicating what diagnostic measure should be plotted.
 #' Options are 'Rhat' (default), indicating the PSR statistic, or 'n.eff',
 #' indicating the effective sample size
 #' @param ...  Additional options
 #' @author Gianluca Baio
-#' @seealso \code{\link{bugs}}, \code{\link{jags}}
+#' @seealso \code{BUGS}, \code{JAGS}
 #' @keywords Diagnostic plots
 #' @examples
 #' \dontrun{
@@ -167,8 +167,8 @@ diagplot=function(x,what="Rhat",...) {
 #' Creates a plot showing the mean and an interval estimate for the posterior
 #' distributions in a given model.
 #'
-#' @param x an object of class `bugs', see \code{\link{bugs}}, or of class
-#' 'jags', see \code{\link{jags}} for details
+#' @param x an object of class `bugs', see \code{BUGS}, or of class
+#' 'jags', see \code{JAGS} for details
 #' @param low the lower quantile to consider (default 2.5 percentile)
 #' @param upp the upper quantile to consider (default 97.5 percentile)
 #' @param parameter a vector of strings with the names of the parameters to be
@@ -176,7 +176,7 @@ diagplot=function(x,what="Rhat",...) {
 #' vector eg \code{c("par1","par2")}
 #' @param ...  Additional options
 #' @author Gianluca Baio
-#' @seealso \code{\link{bugs}}, \code{\link{jags}}
+#' @seealso \code{BUGS}, \code{JAGS}
 #' @keywords Coefficient plots
 #' @examples
 #' \dontrun{

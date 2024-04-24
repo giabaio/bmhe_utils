@@ -19,8 +19,3 @@ removed}
 Computes and prints summary statistics for a vector or matrix of
 simulated values - tidyverse style
 }
-\examples{
-x=rnorm(1000)
-stats2(x)
-
-}

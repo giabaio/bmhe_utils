@@ -7,8 +7,8 @@
 coefplot(x, low = 0.025, upp = 0.975, parameter = NULL, ...)
 }
 \arguments{
-\item{x}{an object of class `bugs', see \code{\link{bugs}}, or of class
-'jags', see \code{\link{jags}} for details}
+\item{x}{an object of class `bugs', see \code{BUGS}, or of class
+'jags', see \code{JAGS} for details}
 
 \item{low}{the lower quantile to consider (default 2.5 percentile)}
 
@@ -29,7 +29,7 @@ distributions in a given model.
 }
 }
 \seealso{
-\code{\link{bugs}}, \code{\link{jags}}
+\code{BUGS}, \code{JAGS}
 }
 \author{
 Gianluca Baio
