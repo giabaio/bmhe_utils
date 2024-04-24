@@ -2,7 +2,7 @@
 #' simulated values
 #'
 #' @param x A vector or a matrix containing simulations from, eg, BUGS
-#' @return tab A table with some specific summary statistics
+#' @return A table with some specific summary statistics
 #' @examples
 #' x=rnorm(1000)
 #' stats(x)
@@ -23,7 +23,8 @@ stats <- function(x,dim=2){
   	tab <- t(apply(x,dim,function(x) bugs.stats(x)))
   	colnames(tab) <- c("mean","sd","2.5%","median","97.5%")
   }
-  list(tab=tab)
+  #list(tab=tab)
+  return(tab)
 }
 
 

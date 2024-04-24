@@ -4,7 +4,8 @@
 #'
 #'
 #' @param x an object of class `bugs', see \code{\link{bugs}}, or of class
-#' 'jags', see \code{\link{jags}} for details
+#' 'jags', see \code{\link{jags}} for details. It can also be a vector with
+#' simulations for a single variable
 #' @param parameter a string with the name of the parameter for which to show
 #' the traceplot. Can be a vector, eg \code{c("par1","par2")}
 #' @param ... further arguments to \code{\link{traceplot}}
@@ -24,24 +25,36 @@ traceplot=function(x,parameter=NULL,...) {
       }
     }
   }
-  # If the object is in the class JAGS,then selects the relevant list
-  if(any(grepl("rjags",class(x)))) {x=x$BUGSoutput}
-  #
-  if(is.null(parameter)) {
-    title="Traceplot for all model parameters"
-  } else {
-    title=paste0("Traceplot for ",parameter)
+
+  # If the input is a `BUGS`/`JAGS` object than use the relevant simulations
+  if(class(x) %in% c("rjags","bugs")) {
+    # If the object is in the class JAGS,then selects the relevant list
+    if(any(grepl("rjags",class(x)))) {x=x$BUGSoutput}
+    #
+    if(is.null(parameter)) {
+      title="Traceplot for all model parameters"
+    } else {
+      title=paste0("Traceplot for ",parameter)
+    }
+    p=x$sims.array %>%
+      as_tibble(.name_repair = ~paste0("Chain",x$sims.array %>% as_tibble() %>% colnames())) %>%
+      # This is only run if 'parameter' is not null (so some parameters are selected by the user)
+      { if(!is.null(parameter)) select(., contains(parameter)) else . } %>%
+      mutate(iteration=row_number()) %>%
+      gather(variable,value,c(-iteration)) %>%
+      separate(variable,c("chain","parameter"),extra = "merge") %>%
+      ggplot(aes(x=iteration,y=value,color=chain))+
+      geom_line()+facet_wrap(~parameter,scales="free")+
+      labs(title=title)+ theme_bw()
   }
-  x$sims.array %>%
-    as_tibble(.name_repair = ~paste0("Chain",x$sims.array %>% as_tibble() %>% colnames())) %>%
-    # This is only run if 'parameter' is not null (so some parameters are selected by the user)
-    { if(!is.null(parameter)) select(., contains(parameter)) else . } %>%
-    mutate(iteration=row_number()) %>%
-    gather(variable,value,c(-iteration)) %>%
-    separate(variable,c("chain","parameter"),extra = "merge") %>%
-    ggplot(aes(x=iteration,y=value,color=chain))+
-    geom_line()+facet_wrap(~parameter,scales="free")+
-    labs(title=title)+ theme_bw()
+
+  # If the input is a vector it will still work
+  if(class(x)=="logical") {x=as.numeric(x)}
+  if(class(x)%in%c("numeric","integer")) {
+    p=x |> as_tibble() |> ggplot(aes(1:length(x),x)) +
+      geom_line() + theme_bw() + xlab("Iterations") + ylab("")
+  }
+  p
 }
 
 

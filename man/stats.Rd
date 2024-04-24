@@ -11,7 +11,7 @@ stats(x, dim = 2)
 \item{x}{A vector or a matrix containing simulations from, eg, BUGS}
 }
 \value{
-tab A table with some specific summary statistics
+A table with some specific summary statistics
 }
 \description{
 Computes and prints summary statistics for a vector or matrix of
