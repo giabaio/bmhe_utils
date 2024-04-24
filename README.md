@@ -34,6 +34,7 @@ and use all the available functions. Roughly speaking, these can be divided into
 - `gammaplot`	Trial-and-error Gamma plot (using `[manipulate](https://cran.r-project.org/web/packages/manipulate/index.html)`)
 - `posteriorplot`	Various plots for the posteriors in a 'bugs' or 'jags' object
 - `traceplot`	Makes a traceplot (eg to visualise MCMC simulations from multiple chains, using `[tidyverse](https://www.tidyverse.org/)`)
+- `acfplot` Autocorrelation plot
 
 ### Printing
 
