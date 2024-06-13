@@ -53,8 +53,8 @@ print.rjags <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.9
   if (!is.null(x$model.file))
     cat("Inference for Bugs model at \"", x$model.file, "\", ",
         sep = "")
-  if (!is.null(x$program))
-    cat("fit using ", x$program, ",", sep = "")
+  # if (!is.null(x$program))
+  #   cat("fit using ", x$program, ",", sep = "")
   cat("\n ", x$n.chains, " chains, each with ", x$n.iter, " iterations (first ",
       x$n.burnin, " discarded)", sep = "")
   if (x$n.thin > 1)

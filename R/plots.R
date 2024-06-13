@@ -128,6 +128,8 @@ posteriorplot=function(x,parameter=NULL,plot="density",add_deviance=FALSE,...) {
 #' @param what A string indicating what diagnostic measure should be plotted.
 #' Options are 'Rhat' (default), indicating the PSR statistic, or 'n.eff',
 #' indicating the effective sample size
+#' @param label A logical input. If set to 'FALSE' (default), then does not
+#' include text labels next to each node
 #' @param ...  Additional options
 #' @author Gianluca Baio
 #' @seealso \code{BUGS}, \code{JAGS}
@@ -137,7 +139,7 @@ posteriorplot=function(x,parameter=NULL,plot="density",add_deviance=FALSE,...) {
 #' }
 #' @export diagplot
 #'
-diagplot=function(x,what="Rhat",...) {
+diagplot=function(x,what="Rhat",label=FALSE,...) {
 
   required_packages=c("tidyverse")
   for (pkg in required_packages) {
@@ -156,10 +158,29 @@ diagplot=function(x,what="Rhat",...) {
   if(x$n.chains==1) {
     cat("You need to run 2 or more parallel chains to be able to make this plot")
   } else {
-    x$summary %>% as_tibble() %>% ggplot(aes(1:nrow(.),!!sym(what))) +
-      geom_point(color="red",size=2) + geom_hline(yintercept=ifelse(what=="Rhat",1.1,x$n.sims),linetype="dashed",size=.5) +
-      theme_bw() + labs(x="Parameters",title=ifelse(what=="Rhat","Potential scale reduction","Effective sample size"))
+    pl=x$summary %>% as_tibble() %>% ggplot(aes(1:nrow(.),!!sym(what))) +
+      geom_point(color="red",size=2) +
+      geom_hline(
+        yintercept=ifelse(what=="Rhat",1.1,x$n.sims),linetype="dashed",size=.5
+      ) +
+      theme_bw() +
+      labs(
+        x="Parameters",
+        title=ifelse(
+          what=="Rhat","Potential scale reduction","Effective sample size"
+        )
+      )
   }
+  # May add labels to the plot
+  if (label) {
+    pl=pl + geom_text(
+      aes(
+        label=
+          as.character(x$summary |> rownames())
+    ),vjust=-1)
+  }
+  # Now produces the plot
+  pl
 }
 
 #' Coefplot for the parameters in the model
@@ -218,7 +239,6 @@ coefplot=function(x,low=.025,upp=.975,parameter=NULL,...) {
     geom_point(position = position_dodge(0.3)) + theme_bw() + geom_vline(xintercept=0,linetype="dashed") +
     labs(x="Interval estimate",title="Coefplot")
 }
-
 
 #' Trial-and-error Beta plot
 #'
