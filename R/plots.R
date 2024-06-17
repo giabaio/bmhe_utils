@@ -222,7 +222,7 @@ coefplot=function(x,low=.025,upp=.975,parameter=NULL,...) {
   #
   xmin=sym(paste0(low*100,"%"))
   xmax=sym(paste0(upp*100,"%"))
-  x$sims.matrix %>% as_tibble() %>%
+  toplot=x$sims.matrix %>% as_tibble() %>%
     { if(grepl("deviance",x$sims.list %>% names()) %>% any()) select(.,-deviance) else . } %>%
     { if(!is.null(parameter)) select(.,contains(parameter)) else . } %>%
     apply(2,function(x) c(mean(x,na.rm=T),sd(x,na.rm=T),quantile(x,low,na.rm=T),quantile(x,upp,na.rm=T))) %>%
@@ -233,11 +233,13 @@ coefplot=function(x,low=.025,upp=.975,parameter=NULL,...) {
         { if(!is.null(parameter)) select(.,contains(parameter)) else . } %>%
         colnames()
     ) %>%
-    select(Parameter,everything()) %>%
-    ggplot(aes(mean,Parameter))+
+    select(Parameter,everything()) |> mutate(num=row_number())
+  # This ensures the correct ordering of variables
+  toplot |> ggplot(aes(mean,num)) +
     geom_linerange(aes(xmin=!!xmin,xmax=!!xmax),position=position_dodge(.3)) +
     geom_point(position = position_dodge(0.3)) + theme_bw() + geom_vline(xintercept=0,linetype="dashed") +
-    labs(x="Interval estimate",title="Coefplot")
+    labs(x="Interval estimate",title="Coefplot",y="Parameter") +
+    scale_y_continuous(breaks=1:nrow(toplot),labels=toplot$Parameter)
 }
 
 #' Trial-and-error Beta plot
