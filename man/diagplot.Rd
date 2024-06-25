@@ -4,7 +4,7 @@
 \alias{diagplot}
 \title{Specialised diagnostic plots}
 \usage{
-diagplot(x, what = "Rhat", ...)
+diagplot(x, what = "Rhat", label = FALSE, ...)
 }
 \arguments{
 \item{x}{an object of class `bugs', see \code{BUGS}, or of class
@@ -13,6 +13,9 @@ diagplot(x, what = "Rhat", ...)
 \item{what}{A string indicating what diagnostic measure should be plotted.
 Options are 'Rhat' (default), indicating the PSR statistic, or 'n.eff',
 indicating the effective sample size}
+
+\item{label}{A logical input. If set to 'FALSE' (default), then does not
+include text labels next to each node}
 
 \item{...}{Additional options}
 }

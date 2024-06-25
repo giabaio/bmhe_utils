@@ -34,7 +34,7 @@ traceplot=function(x,parameter=NULL,...) {
     if(is.null(parameter)) {
       title="Traceplot for all model parameters"
     } else {
-      title=paste0("Traceplot for ",parameter)
+      title=paste0("Traceplot for selected model parameters")
     }
     p=x$sims.array %>%
       as_tibble(.name_repair = ~paste0("Chain",x$sims.array %>% as_tibble() %>% colnames())) %>%
