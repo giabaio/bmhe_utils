@@ -10,13 +10,13 @@ install.packages(pkgs, repos=repos, dependencies = "Depends")
 ```
 before installing the package using `remotes`:
 ```r
-remotes::install_github("giabaio/BCEA", ref="dev")
+remotes::install_github("giabaio/bmhe_utils")
 ```
 
 Under Linux or MacOS, it is sufficient to install the package via `remotes`:
 ```r
 install.packages("remotes")
-remotes::install_github("giabaio/BCEA", ref="dev")
+remotes::install_github("giabaio/bmhe_utils")
 ```
 
 ## Use
