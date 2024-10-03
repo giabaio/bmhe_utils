@@ -19,6 +19,11 @@ install.packages("remotes")
 remotes::install_github("giabaio/bmhe_utils")
 ```
 
+Alternatively, the package can be installed using the following command.
+```r
+install.packages("bmhe",repos="giabaio.github.io/drat/",type="source")
+```
+
 ## Use
 Load the package into the `R` workspace as usual
 ```
