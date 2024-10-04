@@ -21,7 +21,12 @@ remotes::install_github("giabaio/bmhe_utils")
 
 Alternatively, the package can be installed using the following command.
 ```r
-install.packages("bmhe",repos="giabaio.github.io/drat/",type="source")
+install.packages(
+  "bmhe",
+  repos=c("https://cran.rstudio.com","giabaio.github.io/drat/"),
+  type="source",
+  dependencies=TRUE
+)
 ```
 
 ## Use
