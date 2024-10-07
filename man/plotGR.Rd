@@ -19,6 +19,7 @@ visually convergence (and see clearly which node has reached it)
 }
 \examples{
 \dontrun{
+plotGR(m)
 }
 
 }

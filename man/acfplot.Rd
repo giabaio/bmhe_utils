@@ -20,12 +20,15 @@ parameters)}
 should be added to the plot (in case it is monitored). Defaults to \code{TRUE},but
 is only relevant if the input object \code{x} is a \code{BUGS} or \code{JAGS}
 object}
+
+\item{...}{Extra arguments}
 }
 \description{
 Plots the ACF function
 }
 \examples{
 \dontrun{
+acfplot(m)
 }
 }
 \author{

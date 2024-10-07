@@ -72,7 +72,7 @@ stats <- function(x,dim=2,out="table",...){
 #'
 stats2 <- function(x,digits=3,na.rm=TRUE) {
  # Makes sure tidyverse is installed
- required_packages=c("tidyverse")
+  required_packages=c("dplyr")
  for (pkg in required_packages) {
    if (!requireNamespace(pkg, quietly = TRUE)) {
      stop("`", pkg, "` is required: install.packages('", pkg, "')")
@@ -89,7 +89,7 @@ stats2 <- function(x,digits=3,na.rm=TRUE) {
  if(is.null(dim(x))==TRUE) {
    nm=deparse(substitute(x))
    x %>% as_tibble() %>% mutate(variable=nm) %>%
-     gather("variable", "value") %>% group_by(variable) %>%
+     tidyr::gather("variable", "value") %>% group_by(variable) %>%
      rename("Parameter"="variable") %>% summarise(
        mean = mean(value,na.rm=na.rm),
        sd = sd(value,na.rm=na.rm),
@@ -99,7 +99,7 @@ stats2 <- function(x,digits=3,na.rm=TRUE) {
      )
  } else {
    # If a named matrix then can do this
-   x %>% as_tibble() %>% gather("variable", "value") %>% group_by(variable) %>%
+   x %>% as_tibble() %>% tidyr::gather("variable", "value") %>% group_by(variable) %>%
      rename("Parameter"="variable") %>% summarise(
        mean = mean(value,na.rm=na.rm),
        sd = sd(value,na.rm=na.rm),
@@ -263,6 +263,7 @@ logitPar <- function(low,upp){
 #' @return the graph with the traceplot
 #' @examples
 #' \dontrun{
+#' mytraceplot("x",m)
 #' }
 #'
 mytraceplot <- function(node,model=m,title="",lab=""){
@@ -306,6 +307,7 @@ mytraceplot <- function(node,model=m,title="",lab=""){
 #' @return the graph with the Gelmn Rubin statistics plot
 #' @examples
 #' \dontrun{
+#' plotGR(m)
 #' }
 #'
 plotGR <- function(m) {

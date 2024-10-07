@@ -19,6 +19,7 @@ parameters of a Gamma distribution to match set properties (eg mean, sd, 95\% in
 }
 \examples{
 \dontrun{
+gammaplot()
 }
 }
 \author{

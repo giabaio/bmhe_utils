@@ -3,13 +3,13 @@
 #' Printing a \code{bugs} object
 #'
 #'
-#' @param x an object of class `bugs', see \code{\link{bugs}} for details
-#' @param digits.summary rounding for tabular output on the console (default is
+#' @param x an object of class `bugs', see \code{bugs} for details
+#' @param digits rounding for tabular output on the console (default is
 #' to round to 1 decimal place)
 #' @param intervals the quantiles for the posterior distribution to
 #' be displayed in the summary statistics table
 #' @param ... further arguments to \code{\link{print}}
-#' @seealso \code{\link{bugs}}
+#' @seealso \code{bugs}
 #' @author Gianluca Baio
 #' @export
 #' @keywords print
@@ -86,9 +86,9 @@ print.bugs <- function(x, digits = 3, intervals = c(0.025, 0.25, 0.5, 0.75, 0.97
 #' Rounds results
 #'
 #'
-#' @param x an object of class `bugs', see \code{\link{bugs}} for details
+#' @param x an object of class `bugs', see \code{bugs} for details
 #' @param digits number of digits to round
-#' @seealso \code{\link{bugs}}
+#' @seealso \code{bugs}
 #' @author Gianluca Baio
 #' @keywords print
 #' @noRd

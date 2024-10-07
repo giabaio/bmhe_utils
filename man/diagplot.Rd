@@ -25,6 +25,7 @@ the Potential Scale Reduction and the effective sample size
 }
 \examples{
 \dontrun{
+diagplot(m)
 }
 }
 \seealso{

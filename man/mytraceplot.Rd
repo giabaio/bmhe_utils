@@ -24,6 +24,7 @@ Makes a traceplot (eg to visualise MCMC simulations from multiple chains)
 }
 \examples{
 \dontrun{
+mytraceplot("x",m)
 }
 
 }

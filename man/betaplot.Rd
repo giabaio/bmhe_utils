@@ -19,6 +19,7 @@ parameters of a Beta distribution to match set properties (eg mean, sd, 95\% int
 }
 \examples{
 \dontrun{
+betaplot()
 }
 }
 \author{

@@ -26,6 +26,7 @@ distributions in a given model.
 }
 \examples{
 \dontrun{
+coefplot(m)
 }
 }
 \seealso{

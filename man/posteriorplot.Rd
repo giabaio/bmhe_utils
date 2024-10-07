@@ -20,7 +20,7 @@ the density plot. Can be a vector, eg \code{c("par1","par2")}}
 \item{add_deviance}{a logical argument to determine whether the \code{deviance}
 should be added to the plot (in case it is monitored). Defaults to \code{FALSE}}
 
-\item{...}{further arguments to \code{\link{densityplot}}}
+\item{...}{further arguments}
 }
 \description{
 Various plots for the posteriors in a \code{bugs} or \code{jags} object
