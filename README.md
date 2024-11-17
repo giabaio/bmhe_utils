@@ -19,15 +19,15 @@ install.packages("remotes")
 remotes::install_github("giabaio/bmhe_utils")
 ```
 
-Alternatively, the package can be installed using the following command.
-```r
+Alternatively, it is possible to install `survHEinla` from source with the following command.
+```
 install.packages(
-  "bmhe",
-  repos=c("https://cran.rstudio.com","giabaio.github.io/drat/"),
-  type="source",
-  dependencies=TRUE
+  'bmhe', 
+  repos = c('https://giabaio.r-universe.dev', 'https://cloud.r-project.org')
 )
 ```
+(NB: You can replace the CRAN mirror to any other, e.g. `https://www.stats.bris.ac.uk/R/` --- see [here](https://cran.r-project.org/)).
+
 
 ## Use
 Load the package into the `R` workspace as usual
