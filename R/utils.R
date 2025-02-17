@@ -342,7 +342,12 @@ logit <- function(x){log(x/(1-x))}
 #' @examples
 #' ilogit(2)
 #'
-ilogit <- function(x){exp(x)/(1+exp(x))}
+ilogit <- function(x){
+  out=exp(x)/(1+exp(x))
+  out[x==-Inf]=0
+  out[x==Inf]=1
+  out
+}
 
 
 #' Maps from odds to probabilities
