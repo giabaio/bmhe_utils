@@ -484,3 +484,42 @@ rlogitnorm <- function(n=1, mu=0, sigma=1){
   logitnormReturn <- qlogitnorm(runif(n=n, 0, 1), mu=mu, sigma=sigma);
   return(logitnormReturn);
 }
+
+
+#' Change of variable
+#'
+#' Constructs a density using the change of variable rule
+#'
+#' @param f an expression with the function y=f(x)
+#' @param g an expression with the inverse function x=g(y)
+#' @param p an expression with the distribution for p_X(x)
+#' @param args.p a list with optional parameters for the function described in
+#' the expression \code{p}
+#' @param y a vector of values for the variable \code{y}
+#' @returns The value of the density p_Y(y) computed using the change of
+#' variable
+#' @author Gianluca Baio
+#' @export change_of_variable
+#' @examples
+#' f=expression(exp(x)/(1+exp(x)))
+#' g=expression(log(y/(1-y)))
+#' p=dnorm
+#' args.p=list(mean=-.405,sd=.413)
+#' y=seq(0,1,.001)
+#' change_of_variable(f,g,p,args.p,y)
+#' tibble(x=y,y=change_of_variable(f,g,p,args.p,y)) |>
+#' ggplot(aes(x,y)) + geom_line()
+#' ggplot() + stat_function(
+#' fun=change_of_variable, args=list(f=f,g=g,p=p,args.p=args.p),n=1001
+#' )
+#'
+change_of_variable=function(f,g,p,args.p=NULL,y) {
+  #' Computes the derivative of g wrt y
+  dgdy=D(g,"y")
+  #' Adds the vector of values for y at which to evaluate p_X(g(y))
+  if(is.null(args.p)){args.p=list()}
+  args.p$x=eval(g)
+  #' Computes the density p_Y(y) using the change of variable rule
+  py=do.call(p,args.p)*abs(eval(dgdy))
+  return(py)
+}

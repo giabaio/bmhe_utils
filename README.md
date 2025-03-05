@@ -60,6 +60,8 @@ and use all the available functions. Roughly speaking, these can be divided into
 - `lognPar`	Computes mean and variance of a logNormal distribution so that the parameters on the natural scale are mu and sigma
 - `odds2probs`	Maps from odds to probabilities
 - `OR`	Computes the odds ratio between two probabilities
+- `dlogitnorm`, `plogitnorm`, `qlogitnorm`, `rlogitnorm` Computes the density, probability distribution, quantiles and random numbers from the logit-Normal distribution. The code is lifted from the `graybox` package (with attribution)
+- `change_of_variable` Computes the density for a variable y=f(x) using the rule of the change of variable and given as inputs the functions f, g=f^{-1} and the distribution p = p_X(x)
 
 ## Licence
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
