@@ -124,7 +124,7 @@ stats2 <- function(x,digits=3,na.rm=TRUE) {
 #' @param mode The implied mode of the distribution
 #' @param upp An upper bound value for the distribution
 #' @param prob The estimated probability that theta <= upp
-#' @return The list of relevant output including the values for the
+#' @returns The list of relevant output including the values for the
 #' parameters of the Beta distribution and some underlying summary statistics
 #' of the resulting variable
 #' @export betaPar2
@@ -492,7 +492,10 @@ rlogitnorm <- function(n=1, mu=0, sigma=1){
 #'
 #' @param f an expression with the function y=f(x)
 #' @param g an expression with the inverse function x=g(y)
-#' @param p an expression with the distribution for p_X(x)
+#' @param p a function for the distribution for p_X(x). Can be specified as a
+#' built-in, named function (e.g. \code{dnorm}), or defined by the user, e.g.
+#' \code{p=function(x,mean,sd){(1/(sqrt(2*pi)*sd))*exp(-0.5*((x-mean)/sd)^2)}}.
+#' Note that the main argument to the function *must* be named \code{x}
 #' @param args.p a list with optional parameters for the function described in
 #' the expression \code{p}
 #' @param y a vector of values for the variable \code{y}
@@ -514,12 +517,12 @@ rlogitnorm <- function(n=1, mu=0, sigma=1){
 #' )
 #'
 change_of_variable=function(f,g,p,args.p=NULL,y) {
-  #' Computes the derivative of g wrt y
+  # Computes the derivative of g wrt y
   dgdy=D(g,"y")
-  #' Adds the vector of values for y at which to evaluate p_X(g(y))
+  # Adds the vector of values for y at which to evaluate p_X(g(y))
   if(is.null(args.p)){args.p=list()}
   args.p$x=eval(g)
-  #' Computes the density p_Y(y) using the change of variable rule
+  # Computes the density p_Y(y) using the change of variable rule
   py=do.call(p,args.p)*abs(eval(dgdy))
   return(py)
 }

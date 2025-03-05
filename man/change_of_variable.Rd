@@ -11,7 +11,10 @@ change_of_variable(f, g, p, args.p = NULL, y)
 
 \item{g}{an expression with the inverse function x=g(y)}
 
-\item{p}{an expression with the distribution for p_X(x)}
+\item{p}{a function for the distribution for p_X(x). Can be specified as a
+built-in, named function (e.g. \code{dnorm}), or defined by the user, e.g.
+\code{p=function(x,mean,sd){(1/(sqrt(2*pi)*sd))*exp(-0.5*((x-mean)/sd)^2)}}.
+Note that the main argument to the function \emph{must} be named \code{x}}
 
 \item{args.p}{a list with optional parameters for the function described in
 the expression \code{p}}
