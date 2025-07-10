@@ -2,24 +2,9 @@
 ## A utility package for post-processing of Bayesian models performed in `OpenBUGS` or `JAGS`
 
 ## Installation
-The package is only available from this `GitHub` repository, for now. On Windows machines, you need to install a few dependencies, including [Rtools](https://cran.r-project.org/bin/windows/Rtools/) first, e.g. by running
-```r
-pkgs <- c("MASS", "Rtools", "remotes")
-repos <- c("https://cran.rstudio.com", "https://inla.r-inla-download.org/R/stable") 
-install.packages(pkgs, repos=repos, dependencies = "Depends")
-```
-before installing the package using `remotes`:
-```r
-remotes::install_github("giabaio/bmhe_utils")
-```
 
-Under Linux or MacOS, it is sufficient to install the package via `remotes`:
-```r
-install.packages("remotes")
-remotes::install_github("giabaio/bmhe_utils")
-```
+The package is only available from this `GitHub` repository, for now. It is possible to install `bmhe_utils` via `r-universe` using the following commands.
 
-Alternatively, it is possible to install `survHEinla` from source with the following command.
 ```
 install.packages(
   'bmhe', 
@@ -28,6 +13,25 @@ install.packages(
 ```
 (NB: You can replace the CRAN mirror to any other, e.g. `https://www.stats.bris.ac.uk/R/` --- see [here](https://cran.r-project.org/)).
 
+Alternatively, on Windows machines, you need to install a few dependencies, including [Rtools](https://cran.r-project.org/bin/windows/Rtools/) first, e.g. by running
+
+```r
+pkgs <- c("MASS", "Rtools", "remotes")
+repos <- c("https://cran.rstudio.com", "https://inla.r-inla-download.org/R/stable") 
+install.packages(pkgs, repos=repos, dependencies = "Depends")
+```
+before installing the package using `remotes`:
+
+```r
+remotes::install_github("giabaio/bmhe_utils")
+```
+
+Under Linux or MacOS, it is sufficient to install the package via `remotes`:
+
+```r
+install.packages("remotes")
+remotes::install_github("giabaio/bmhe_utils")
+```
 
 ## Use
 Load the package into the `R` workspace as usual
